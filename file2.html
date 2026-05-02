@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EHSS Exam Practice — Interactive</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+ 
+:root {
+  --bg: #0d0f14;
+  --surface: #13161e;
+  --surface2: #1a1e2a;
+  --surface3: #20253a;
+  --border: #252b3d;
+  --border2: #2e3550;
+  --accent: #5b8dee;
+  --accent-dim: rgba(91,141,238,0.15);
+  --accent-glow: rgba(91,141,238,0.35);
+  --green: #3ecf8e;
+  --green-dim: rgba(62,207,142,0.12);
+  --red: #f06a6a;
+  --red-dim: rgba(240,106,106,0.12);
+  --yellow: #f5c842;
+  --yellow-dim: rgba(245,200,66,0.12);
+  --purple: #a78bfa;
+  --text: #dde3f0;
+  --text2: #9099b0;
+  --text3: #5a6278;
+  --mono: 'JetBrains Mono', monospace;
+  --serif: 'Lora', serif;
+  --sans: 'Syne', sans-serif;
+}
+ 
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+ 
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+ 
+/* ── HEADER ── */
+header {
+  background: linear-gradient(180deg, #0d0f14 0%, #111420 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 1.6rem 2rem 1.2rem;
+  position: sticky; top: 0; z-index: 200;
+}
+.header-inner { max-width: 1100px; margin: 0 auto; }
+.header-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+header h1 { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.3px; color: var(--accent); }
+header h1 span { color: var(--text2); font-weight: 400; }
+ 
+.score-bar {
+  display: flex; gap: 8px; align-items: center;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 30px; padding: 5px 14px; font-size: 12px;
+}
+.score-bar .s { color: var(--green); font-weight: 700; font-family: var(--mono); }
+.score-bar .t { color: var(--text2); }
+ 
+/* ── NAV TABS ── */
+nav {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; gap: 4px; margin-top: 14px; flex-wrap: wrap;
+}
+.tab-btn {
+  background: transparent; border: 1px solid transparent;
+  color: var(--text3); font-family: var(--sans); font-size: 12px; font-weight: 600;
+  padding: 5px 14px; border-radius: 20px; cursor: pointer;
+  transition: all 0.2s; letter-spacing: 0.3px;
+}
+.tab-btn:hover { color: var(--text); border-color: var(--border2); }
+.tab-btn.active { color: var(--accent); background: var(--accent-dim); border-color: var(--accent-glow); }
+ 
+/* ── MAIN ── */
+main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+ 
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+ 
+/* ── SECTION HEADER ── */
+.section-hd {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.2rem; flex-wrap: wrap; gap: 10px;
+}
+.section-hd h2 {
+  font-size: 1rem; font-weight: 800; color: var(--text);
+  letter-spacing: -0.2px;
+}
+.section-hd h2 em { color: var(--accent); font-style: normal; }
+ 
+.btn-sm {
+  background: var(--surface2); border: 1px solid var(--border2);
+  color: var(--text2); font-family: var(--sans); font-size: 11px; font-weight: 600;
+  padding: 5px 12px; border-radius: 8px; cursor: pointer;
+  transition: all 0.15s; letter-spacing: 0.3px;
+}
+.btn-sm:hover { background: var(--surface3); color: var(--text); }
+.btn-sm.danger { color: var(--red); border-color: rgba(240,106,106,0.3); }
+.btn-sm.success { color: var(--green); border-color: rgba(62,207,142,0.3); }
+ 
+/* ── CATEGORY LABEL ── */
+.cat-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--yellow);
+  margin: 2rem 0 0.7rem; padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.cat-label:first-of-type { margin-top: 0; }
+ 
+/* ── FILL IN THE BLANK ── */
+.fb-list { display: flex; flex-direction: column; gap: 8px; }
+ 
+.fb-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 16px;
+  font-family: var(--serif);
+  font-size: 13.5px;
+  line-height: 1.75;
+  transition: border-color 0.2s;
+  position: relative;
+}
+.fb-item:hover { border-color: var(--border2); }
+ 
+/* The clickable blank */
+.blank-wrap {
+  display: inline;
+  position: relative;
+}
+ 
+.blank-cover {
+  display: inline-block;
+  background: var(--surface3);
+  border: 1.5px dashed var(--border2);
+  border-radius: 5px;
+  padding: 0 10px;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: 0.5px;
+  transition: all 0.18s;
+  min-width: 60px;
+  text-align: center;
+  user-select: none;
+  vertical-align: middle;
+  margin: 0 2px;
+}
+.blank-cover:hover {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.blank-cover.revealed {
+  background: var(--green-dim);
+  border: 1.5px solid var(--green);
+  color: var(--green);
+  font-weight: 700;
+  font-size: 12px;
+  cursor: default;
+  animation: pop 0.25s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes pop {
+  0% { transform: scale(0.85); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
+}
+ 
+.fb-meta {
+  display: flex; align-items: center; gap: 8px; margin-top: 8px;
+}
+.src-tag {
+  font-size: 10px; color: var(--text3); font-family: var(--sans);
+  background: var(--surface2); padding: 2px 8px; border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.reveal-all-hint { font-size: 10px; color: var(--text3); font-family: var(--sans); }
+ 
+/* ── TRUE/FALSE ── */
+.tf-list { display: flex; flex-direction: column; gap: 10px; }
+ 
+.tf-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  transition: border-color 0.2s;
+}
+.tf-card:hover { border-color: var(--border2); }
+ 
+.tf-statement {
+  font-family: var(--serif);
+  font-size: 13.5px;
+  line-height: 1.7;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+ 
+.tf-options {
+  display: flex; gap: 8px;
+}
+ 
+.tf-btn {
+  flex: 1;
+  background: var(--surface2); border: 1.5px solid var(--border2);
+  color: var(--text2); font-family: var(--sans); font-size: 12px; font-weight: 700;
+  padding: 8px 16px; border-radius: 8px; cursor: pointer;
+  transition: all 0.15s; letter-spacing: 0.5px;
+}
+.tf-btn:hover:not(:disabled) { background: var(--surface3); color: var(--text); }
+ 
+.tf-btn.correct {
+  background: var(--green-dim);
+  border-color: var(--green);
+  color: var(--green);
+  animation: pop 0.25s cubic-bezier(0.34,1.56,0.64,1);
+}
+.tf-btn.wrong {
+  background: var(--red-dim);
+  border-color: var(--red);
+  color: var(--red);
+}
+.tf-btn.reveal-correct {
+  background: var(--green-dim);
+  border-color: var(--green);
+  color: var(--green);
+}
+.tf-btn:disabled { cursor: default; }
+ 
+.tf-explanation {
+  display: none;
+  margin-top: 10px;
+  font-size: 12px;
+  font-family: var(--sans);
+  color: var(--text2);
+  padding: 8px 12px;
+  background: var(--surface2);
+  border-radius: 7px;
+  border-left: 3px solid var(--accent);
+  line-height: 1.6;
+}
+.tf-explanation.show { display: block; animation: fadeIn 0.2s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+ 
+/* ── DEFINITIONS ── */
+.def-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 720px) { .def-grid { grid-template-columns: 1fr; } }
+ 
+.def-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.def-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+ 
+.def-term {
+  font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 6px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.def-term .arrow { color: var(--text3); font-size: 11px; transition: transform 0.2s; }
+.def-card.open .def-term .arrow { transform: rotate(90deg); color: var(--accent); }
+ 
+.def-tag {
+  font-size: 9px; font-family: var(--sans); font-weight: 700; letter-spacing: 0.8px;
+  color: var(--text3); text-transform: uppercase;
+  background: var(--surface2); padding: 2px 7px; border-radius: 8px; margin-bottom: 8px;
+  display: inline-block;
+}
+ 
+.def-meaning {
+  font-family: var(--serif);
+  font-size: 13px; line-height: 1.7; color: var(--text2);
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.35s ease, opacity 0.3s;
+  opacity: 0;
+}
+.def-card.open .def-meaning { max-height: 400px; opacity: 1; }
+ 
+.def-hint { font-size: 11px; color: var(--text3); font-family: var(--sans); margin-top: 2px; }
+ 
+/* ── NUMBERS TABLE ── */
+.num-section { margin-bottom: 2rem; }
+.num-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 13px; border-radius: 10px; overflow: hidden;
+}
+.num-table th {
+  background: var(--surface2); color: var(--accent);
+  padding: 10px 14px; text-align: left; font-weight: 700; font-size: 11px; letter-spacing: 0.5px;
+}
+.num-table td { padding: 9px 14px; border-top: 1px solid var(--border); vertical-align: top; }
+.num-table tr:hover td { background: var(--accent-dim); }
+.num { color: var(--yellow); font-weight: 700; font-family: var(--mono); font-size: 12px; }
+ 
+/* ── PROGRESS STRIP ── */
+.progress-strip {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
+  background: var(--surface); border-top: 1px solid var(--border);
+  padding: 10px 2rem; display: flex; align-items: center; gap: 16px;
+  font-size: 12px;
+}
+.progress-strip .label { color: var(--text2); font-weight: 600; }
+.progress-bar-wrap {
+  flex: 1; max-width: 300px;
+  background: var(--surface2); border-radius: 10px; height: 6px; overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%; background: linear-gradient(90deg, var(--accent), var(--green));
+  border-radius: 10px; transition: width 0.4s ease;
+}
+.progress-strip .pct { color: var(--green); font-weight: 700; font-family: var(--mono); }
+.progress-strip .reset-all {
+  background: transparent; border: 1px solid var(--border2);
+  color: var(--text3); font-family: var(--sans); font-size: 11px; font-weight: 600;
+  padding: 4px 10px; border-radius: 6px; cursor: pointer; margin-left: auto;
+}
+.progress-strip .reset-all:hover { color: var(--red); border-color: rgba(240,106,106,0.4); }
+ 
+/* scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+</style>
+</head>
+<body>
+ 
+<header>
+  <div class="header-inner">
+    <div class="header-top">
+      <h1>EHSS Practice <span>— Interactive Exam Prep</span></h1>
+      <div class="score-bar">
+        <span class="t">Score:</span>
+        <span class="s" id="score-display">0 / 0</span>
+      </div>
+    </div>
+    <nav>
+      <button class="tab-btn active" onclick="switchTab('fillups')">✏️ Fill in the Blank</button>
+      <button class="tab-btn" onclick="switchTab('tf')">✅ True / False</button>
+      <button class="tab-btn" onclick="switchTab('defs')">📖 Definitions</button>
+      <button class="tab-btn" onclick="switchTab('numbers')">🔢 Key Numbers</button>
+    </nav>
+  </div>
+</header>
+ 
+<main>
+ 
+<!-- ═══════════════════════════════════════════════
+     FILL IN THE BLANK
+═══════════════════════════════════════════════ -->
+<div id="tab-fillups" class="tab-panel active">
+  <div class="section-hd">
+    <h2>✏️ Fill in the Blank — <em>Click blanks to reveal</em></h2>
+    <div style="display:flex;gap:8px">
+      <button class="btn-sm success" onclick="revealAll()">Reveal All</button>
+      <button class="btn-sm danger" onclick="resetAll()">Reset All</button>
+    </div>
+  </div>
+ 
+  <div class="cat-label">🌿 Biodiversity — Core Facts</div>
+  <div class="fb-list" id="fb-container"></div>
+ 
+</div>
+ 
+<!-- ═══════════════════════════════════════════════
+     TRUE / FALSE
+═══════════════════════════════════════════════ -->
+<div id="tab-tf" class="tab-panel">
+  <div class="section-hd">
+    <h2>✅ True / False — <em>Select your answer</em></h2>
+    <button class="btn-sm danger" onclick="resetTF()">Reset All</button>
+  </div>
+  <div class="tf-list" id="tf-container"></div>
+</div>
+ 
+<!-- ═══════════════════════════════════════════════
+     DEFINITIONS
+═══════════════════════════════════════════════ -->
+<div id="tab-defs" class="tab-panel">
+  <div class="section-hd">
+    <h2>📖 Definitions — <em>Click a term to reveal its meaning</em></h2>
+    <div style="display:flex;gap:8px">
+      <button class="btn-sm success" onclick="expandAllDefs()">Expand All</button>
+      <button class="btn-sm danger" onclick="collapseAllDefs()">Collapse All</button>
+    </div>
+  </div>
+  <div class="def-grid" id="def-container"></div>
+</div>
+ 
+<!-- ═══════════════════════════════════════════════
+     KEY NUMBERS
+═══════════════════════════════════════════════ -->
+<div id="tab-numbers" class="tab-panel">
+  <div class="section-hd">
+    <h2>🔢 Key Numbers — <em>Every statistic that could be a blank</em></h2>
+  </div>
+  <table class="num-table">
+    <tr><th>Number / Figure</th><th>What it refers to</th><th>Source</th></tr>
+  </table>
+  <div id="num-container"></div>
+</div>
+ 
+</main>
+ 
+<div class="progress-strip">
+  <span class="label">Progress</span>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
+  <span class="pct" id="progress-pct">0%</span>
+  <button class="reset-all" onclick="resetAll();resetTF();">↺ Reset Everything</button>
+</div>
+ 
+<script>
+// ═══════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════
+ 
+const FB_DATA = [
+  // Biodiversity Core
+  { q: "Biodiversity found on Earth is the product of nearly ___ of evolution.", a: "3.5 billion years", src: "Biodiversity PPT" },
+  { q: "Biologists define biodiversity as the totality of ___, ___, and ___ of a region.", a: "genes, species, ecosystems", src: "Biodiversity PPT" },
+  { q: "Biodiversity is virtually synonymous with ___.", a: '"Life on Earth"', src: "Biodiversity PPT" },
+  { q: "Species diversity uses the ___ which incorporates number and relative abundance.", a: "Simpson Index", src: "Biodiversity PPT" },
+  { q: "Species richness is measured using the ___.", a: "Shannon Wiener Index", src: "Biodiversity PPT" },
+  { q: "___ diversity refers to within-community diversity (same habitat).", a: "Alpha", src: "Biodiversity PPT" },
+  { q: "___ diversity refers to between-community diversity (two habitats).", a: "Beta", src: "Biodiversity PPT" },
+  { q: "___ diversity is the diversity of habitat over the total landscape or geographical area.", a: "Gamma", src: "Biodiversity PPT" },
+  { q: "About ___ edible plants exist; about ___% of food crops were domesticated from wild.", a: "80,000 / 90%", src: "Biodiversity PPT" },
+  { q: "About ___% of the world's population depends on plants and plant extracts for medicine.", a: "75%", src: "Biodiversity PPT" },
+  { q: "About ___ species have been identified till date.", a: "2.1 million", src: "Biodiversity PPT" },
+  { q: "India ranks ___ globally and ___ in Asia in plant diversity.", a: "10th globally / 4th in Asia", src: "Biodiversity PPT" },
+  { q: "A biodiversity hotspot must contain at least ___ endemic vascular plant species and have lost at least ___% of its original native vegetation.", a: "1,500 species / 70%", src: "Biodiversity PPT" },
+  { q: "An area is also designated a hotspot when it contains at least ___% of plant species as endemic.", a: "0.5%", src: "Biodiversity PPT" },
+  { q: "There are ___ biodiversity hotspots globally, of which ___ are in India.", a: "25 / 2", src: "Biodiversity PPT" },
+  { q: "The two biodiversity hotspots in India are ___ and ___.", a: "Indo-Burma (Eastern Himalayas) / Western Ghats & Sri Lanka", src: "Biodiversity PPT" },
+  { q: "These hotspots cover less than ___% of the world's land area but contain about ___% of terrestrial biodiversity.", a: "2% / 50%", src: "Biodiversity PPT" },
+  { q: "Western Ghats & Sri Lanka hotspot is also known as the ___.", a: '"Sahyadri Hills"', src: "Biodiversity PPT" },
+  { q: "The original extent of the Western Ghats hotspot was about ___ sq km, but only ___ sq km (___%) is now pristine.", a: "1,82,500 / 12,445 / 6.8%", src: "Biodiversity PPT" },
+  { q: "Criteria for hotspot designation: number of ___ and degree of threat measured by ___.", a: "Endemic Species / Habitat Loss", src: "Biodiversity PPT" },
+  { q: "Habitat loss affects ___% of threatened birds, ___% of mammals, and ___% of threatened plants (IUCN, 2000).", a: "89% / 83% / 91%", src: "Biodiversity PPT" },
+  { q: "The Convention on Biological Diversity was held in ___ in ___ 1992.", a: "Rio de Janeiro / June", src: "Biodiversity PPT" },
+  { q: "India has ___ major biosphere reserves, ___ national parks, and ___ wildlife sanctuaries, covering ___% of geographic area.", a: "11 / 80 / 420 / 4%", src: "Biodiversity PPT" },
+  { q: "The ___ National Park was the first national park established in India.", a: "Jim Corbett", src: "Biodiversity PPT" },
+  { q: "Out of about ___ species of plants in India, ___ are endemic.", a: "47,000 / 7,000", src: "Biodiversity PPT" },
+  { q: "India has ___ IUCN-threatened animal species, which is ___% of the world's total.", a: "172 / 2.9%", src: "Biodiversity PPT" },
+  { q: "The 172 threatened species include ___ mammals, ___ birds, ___ reptiles, and ___ amphibians.", a: "53 / 69 / 23 / 3", src: "Biodiversity PPT" },
+  { q: "About ___–___ higher plants may be under high degree of threat in India.", a: "3,000–4,000", src: "Biodiversity PPT" },
+  { q: "About ___% endemic flora is restricted mainly to Himalayas, Khasi Hills, and Western Ghats.", a: "62%", src: "Biodiversity PPT" },
+  { q: "About ___% amphibians and ___% lizards are endemic to Western Ghats.", a: "62% / 50%", src: "Biodiversity PPT" },
+  { q: "India has a total of ___ species of animals.", a: "81,000", src: "Biodiversity PPT" },
+  { q: "There are more than ___ Botanical Gardens with more than ___ species worldwide.", a: "1,500 / 80,000", src: "Biodiversity PPT" },
+  { q: "There are more than ___ zoos worldwide with about ___ species of mammals, birds, reptiles, and amphibians.", a: "800 / 3,000", src: "Biodiversity PPT" },
+  { q: "NBPGR seeds are preserved by cryo-preservation at ___ in ___.", a: "-196°C / Liquid Nitrogen", src: "Biodiversity PPT" },
+  { q: "The ___ was the first drug based on snake venom, approved by the US FDA in ___, used as an antihypertensive.", a: "Captopril / 1981", src: "Biodiversity PPT" },
+  { q: "Apple cultivars in North America have been reduced from ___ to ___, supplying 90% of production.", a: "14,000 / 11", src: "Biodiversity PPT" },
+  { q: "Coffee production in Latin America declined by ___% due to climate change.", a: "28%", src: "Biodiversity PPT" },
+  { q: "Of 80,000 edible plants, we depend on ___ species for ___% of global food; corn, rice, and wheat provide ___% alone.", a: "20 / 90% / 50%", src: "Biodiversity PPT" },
+  { q: "___% of modern medicines come from plants/animals/fungi; ___% of known plant species have never been tested.", a: "40% / 95%", src: "Biodiversity PPT" },
+  { q: "Engineers Ireland declared a climate and biodiversity emergency in ___ and has ___ members.", a: "March 2020 / 25,000", src: "Biodiversity PPT" },
+  { q: "House flies are strongly suspected of transmitting at least ___ diseases to humans.", a: "65 diseases", src: "Biodiversity PPT" },
+  { q: "Key plastic-eating insect larvae: ___ (yellow mealworm), ___ (superworm), and ___ (wax worm).", a: "Tenebrio molitor / Zophobas atratus / Galleria mellonella", src: "Biodiversity PPT" },
+  { q: "The ___ Act, 1972 provides comprehensive legal protection for wild animals, birds, and plants in India.", a: "Wild Life (Protection)", src: "Biodiversity PPT" },
+  { q: "The 2022 Wildlife Amendment Act streamlined original ___ schedules into ___ distinct categories.", a: "six / four", src: "Biodiversity PPT" },
+  { q: "Schedule ___ offers highest protection; Schedule ___ is for CITES-listed specimens.", a: "I / IV", src: "Biodiversity PPT" },
+  { q: "The Biological Diversity Act was enacted in ___ and notably updated in ___.", a: "2002 / 2023", src: "Biodiversity PPT" },
+  { q: "The NBA (National Biodiversity Authority) was established in ___ and is headquartered in ___.", a: "2003 / Chennai", src: "Biodiversity PPT" },
+  { q: "The National Medicinal Plants Board (NMPB) was established in ___ under the Ministry of ___.", a: "November 2000 / AYUSH", src: "Biodiversity PPT" },
+  { q: "Great Indian Bustard is becoming extinct in ___ — being saved through ___.", a: "Rajasthan / Artificial Hatching", src: "Biodiversity PPT" },
+  { q: "ONGC translocated eastern swamp deer from ___ to ___ National Park.", a: "Kaziranga / Manas", src: "Biodiversity PPT" },
+  { q: "Green engineering of USEPA: the design, commercialization, and use of processes that ___, ___, and ___.", a: "minimize pollution / promote sustainability / protect human health", src: "Biodiversity PPT" },
+  { q: "De-extinction involves the revival of species from ___ years ago through ___.", a: "12,000 / genetic engineering", src: "Biodiversity PPT" },
+ 
+  // Environmental Challenges
+  { q: "The UN's three key environmental issues are encoded as the ___.", a: '"triple planetary crises"', src: "Env. Challenges PPT" },
+  { q: "The share of renewables in global electricity generation reached ___% in 2026.", a: "34.3%", src: "Env. Challenges PPT" },
+  { q: "India is the world's ___-largest renewable energy market.", a: "third", src: "Env. Challenges PPT" },
+  { q: "India's installed RE capacity reached ___ GW by March 2026 — a ___-fold increase since 2014.", a: "274.68 GW / 3.59-fold", src: "Env. Challenges PPT" },
+  { q: "India's solar capacity is ___ GW and wind capacity is ___ GW.", a: "150.26 GW / 56.09 GW", src: "Env. Challenges PPT" },
+  { q: "India's renewable energy target is ___ GW by ___.", a: "500 GW / 2030", src: "Env. Challenges PPT" },
+  { q: "More than ___ people lack access to clean water.", a: "1 billion", src: "Env. Challenges PPT" },
+  { q: "Air pollution kills about ___ people per year.", a: "3 million", src: "Env. Challenges PPT" },
+  { q: "Indoor air pollution is responsible for up to ___ deaths per year (WHO 2010).", a: "1.6 million", src: "Env. Challenges PPT" },
+  { q: "The ozone layer is in the ___, about ___–___ km above the Earth.", a: "stratosphere / 20–25 km", src: "Env. Challenges PPT" },
+  { q: "Ozone depletion is caused mainly by ___ and HCCs used in refrigerators and spray cans. The 4th generation refrigerants are ___.", a: "CFCs / HFOs (Hydrofluoroolefins)", src: "Env. Challenges PPT" },
+  { q: "Radioactive plutonium has a half-life of ___ years.", a: "24,000", src: "Env. Challenges PPT" },
+  { q: "US per-capita garbage: ___ lbs/day in 1960, ___ in 1980, ___ in 2009, ~___ in 2017.", a: "2.7 / 3.7 / 4.3 / 5", src: "Env. Challenges PPT" },
+  { q: "Municipal Solid Waste in India is ___ million tonnes per annum.", a: "62 mT", src: "Env. Challenges PPT" },
+  { q: "There are an estimated ___ million species on Earth; ___ million have been named and catalogued.", a: "8.7 / 1.3", src: "Env. Challenges PPT" },
+  { q: "Ecosystem services have an estimated global value exceeding $___ per year.", a: "$125 trillion", src: "Env. Challenges PPT" },
+  { q: "CO₂ level in the atmosphere in 2026 is approximately ___ ppm.", a: "430 ppm", src: "Env. Challenges PPT" },
+  { q: "Earth's surface temperature has risen by ___°C over the 1800s baseline.", a: "1.5°C", src: "Env. Challenges PPT" },
+  { q: "Climate change kills an estimated ___ people per year, mostly in the ___ world.", a: "30,000 / developing", src: "Env. Challenges PPT" },
+  { q: "In 2009, oil and gas industries spent $___ million on lobbying — nearly ___ times what pro-environmental groups spent.", a: "$175 million / eight", src: "Env. Challenges PPT" },
+  { q: "About ___ tons of toxic chemicals are released into the environment each year.", a: "3 million", src: "Env. Challenges PPT" },
+  { q: "The 12th Report on Carcinogens lists ___ chemical substances as known or anticipated human carcinogens.", a: "240", src: "Env. Challenges PPT" },
+  { q: "The world's population reached ___ billion in ___.", a: "8 billion / 2022", src: "Env. Challenges PPT" },
+  { q: "Urbanisation in India is about ___%, against ___% world average.", a: "34% / 56%", src: "Env. Challenges PPT" },
+  { q: "EIA is mandatory for ___ categories of developmental activities involving investments of Rs. ___ crores and above.", a: "29 categories / Rs. 50 crores", src: "Env. Challenges PPT" },
+  { q: "The governing EIA legal instrument in India is the ___ Notification, ___.", a: "EIA / 2006", src: "Env. Challenges PPT" },
+  { q: "India is the world's ___th largest producer of chemicals; ___, ___, and ___ take the global lead.", a: "6th / China / USA / Germany", src: "Env. Challenges PPT" },
+  { q: "There are more than ___ dams worldwide.", a: "840,000", src: "Env. Challenges PPT" },
+  { q: "Hydroelectric power accounts for ___% of global energy and is criticized for ___.", a: "6.2% / affecting natural habitats", src: "Env. Challenges PPT" },
+  { q: "___ is the deceptive marketing tactic of portraying a product as more environmentally friendly than it is.", a: "Greenwashing", src: "Env. Challenges PPT" },
+  { q: "___ uses pink ribbons to suggest a company is helping fight ___.", a: "Pinkwashing / breast cancer", src: "Env. Challenges PPT" },
+  { q: "The relationship between economic development and environmental degradation is described as the ___ — shaped like an ___.", a: "Environmental Kuznets Curve (EKC) / inverted U", src: "Env. Challenges PPT" },
+  { q: "Red fire ants came from ___ on lumber shipments to ___, Alabama in ___.", a: "Paraguay and Brazil / Mobile / 1957", src: "Env. Challenges PPT" },
+  { q: "Acid rain forms when ___ and ___ mix with precipitation.", a: "sulfur dioxide / nitrogen oxide", src: "Env. Challenges PPT" },
+  { q: "Approximately ___–___% of India's total geographical area is undergoing land degradation; primary driver is ___ erosion (___%).", a: "29.3–30% / water / 80%", src: "Env. Challenges PPT" },
+  { q: "MCS (Multiple Chemical Sensitivity) is also known as ___.", a: "environmental illness", src: "Env. Challenges PPT" },
+  { q: "PFAS stands for ___ and is known as ___.", a: "Per- and polyfluoroalkyl substances / forever chemicals", src: "Env. Challenges PPT" },
+  { q: "PTFE (___), also known as ___, is a PFAS compound.", a: "Polytetrafluoroethylene / TEFLON", src: "Env. Challenges PPT" },
+  { q: "Maglev derives from ___. Top speed: ___ km/h. Used in ___, ___, and ___.", a: "magnetic levitation / 603 / China / Japan / Korea", src: "Env. Challenges PPT" },
+ 
+  // Carbon PPT
+  { q: "Replacing ___ with gas or oil would reduce carbon footprints.", a: "coal", src: "Carbon PPT" },
+  { q: "A Quad = 10___ BTU = ___×10___ joules = ___ exajoules (EJ).", a: "¹⁵ / 1.055 / ¹⁸ / 1.055", src: "Carbon PPT" },
+  { q: "Reference for carbon numericals: ___ by ___, Prentice Hall of India, ___.", a: "Introduction to Environmental Engineering and Science / Gilbert M. Masters / 1991", src: "Carbon PPT" },
+  { q: "Forests, wetlands, mangroves, and grasslands act as ___, reducing GHG in atmosphere.", a: "carbon sinks", src: "Carbon PPT" },
+ 
+  // SKM PDFs / EHSS
+  { q: "India is one of ___ nations that have ratified the CBD.", a: "196", src: "SKM PDF / Env. PPT" },
+  { q: "KMGBF was adopted at ___ in ___ with ___ major goals and ___ urgent targets for 2030.", a: "COP 15 / 2022 / 4 / 23", src: "SKM PDF" },
+  { q: "KMGBF's mission: halt biodiversity loss by ___, ultimate vision of harmony with nature by ___.", a: "2030 / 2050", src: "SKM PDF" },
+  { q: "PSUs in India contribute about ___% to India's GDP.", a: "14%", src: "SKM PDF" },
+  { q: "NPC (National Productivity Council) was established in ___ and has supported over ___ enterprises.", a: "1958 / 10,000+", src: "SKM PDF" },
+  { q: "NPC has been designated as ___ (EADA) since ___.", a: "Environment Audit Designated Agency / 18th March 2026", src: "SKM PDF" },
+  { q: "The 3rd Edition EHSS India Congress was held on ___ at ___, New Delhi.", a: "17 April 2026 / Le Méridien", src: "EHSS PDF" },
+  { q: "EHSS 2026 conference theme: ___.", a: "Landscape of EHS&S in Indian Industry", src: "EHSS PDF" },
+  { q: "NTPC released a biodiversity conservation policy in ___ aiming for ___.", a: "2022 / No Net Loss of Biodiversity", src: "SKM PDF" },
+];
+ 
+const TF_DATA = [
+  { s: "Alpha diversity refers to between-community diversity (organisms sharing two habitats).", a: false, ex: "FALSE — Alpha is within-community diversity. Beta diversity is between two habitats." },
+  { s: "Biodiversity found on Earth is the product of nearly 3.5 billion years of evolution.", a: true, ex: "Correct — exactly 3.5 billion years." },
+  { s: "Species diversity uses the Shannon Wiener Index, which incorporates number and relative abundance.", a: false, ex: "FALSE — Simpson Index incorporates number AND relative abundance. Shannon Wiener Index measures species richness." },
+  { s: "There are 30 global biodiversity hotspots, of which 3 are present in India.", a: false, ex: "FALSE — There are 25 hotspots globally and only 2 are in India." },
+  { s: "The two biodiversity hotspots in India are Indo-Burma and Western Ghats & Sri Lanka.", a: true, ex: "Correct — Indo-Burma (Eastern Himalayas) and Western Ghats & Sri Lanka." },
+  { s: "A biodiversity hotspot must have lost at least 50% of its original native vegetation.", a: false, ex: "FALSE — Must have lost at least 70% of original native vegetation." },
+  { s: "A hotspot must contain at least 1,500 endemic vascular plant species found nowhere else.", a: true, ex: "Correct — 1,500 endemic vascular plant species AND 70% vegetation loss." },
+  { s: "Biodiversity hotspots cover less than 2% of the world's land area but contain about 50% of terrestrial biodiversity.", a: true, ex: "Correct — <2% land area, ~50% terrestrial biodiversity." },
+  { s: "The Western Ghats & Sri Lanka hotspot is also known as the 'Vindhya Hills'.", a: false, ex: "FALSE — It is known as the 'Sahyadri Hills'." },
+  { s: "The original extent of the Western Ghats hotspot was about 1,82,500 sq km; only 12,445 sq km (6.8%) is now pristine.", a: true, ex: "Correct — exact figures." },
+  { s: "Jim Corbett National Park was the first national park established in India.", a: true, ex: "Correct." },
+  { s: "India has 80 major biosphere reserves, 11 national parks, and 420 wildlife sanctuaries.", a: false, ex: "FALSE — India has 11 major biosphere reserves, 80 national parks, and 420 wildlife sanctuaries." },
+  { s: "India has 172 IUCN-threatened animal species, which is 2.9% of the world's total.", a: true, ex: "Correct — 172 species, 2.9%." },
+  { s: "The 172 threatened species include 53 mammals, 69 birds, 23 reptiles, and 3 amphibians.", a: true, ex: "Correct — memorize these four numbers." },
+  { s: "Out of about 47,000 plant species in India, 12,000 are endemic.", a: false, ex: "FALSE — Only 7,000 are endemic." },
+  { s: "Seeds at NBPGR are preserved by cryo-preservation at -196°C in Liquid Nitrogen.", a: true, ex: "Correct — -196°C in Liquid Nitrogen." },
+  { s: "The NBA (National Biodiversity Authority) was established in 2002 and is headquartered in Mumbai.", a: false, ex: "FALSE — NBA was established in 2003 (under the 2002 Act) and headquartered in Chennai." },
+  { s: "There are more than 1,500 Botanical Gardens worldwide with more than 80,000 species.", a: true, ex: "Correct — 1,500 gardens, 80,000 species." },
+  { s: "There are more than 800 zoos around the world with about 3,000 species.", a: true, ex: "Correct — 800 zoos, 3,000 species." },
+  { s: "The Wildlife (Protection) Amendment Act 2022 streamlined 6 original schedules into 4 categories.", a: true, ex: "Correct — 6 → 4 schedules." },
+  { s: "Schedule II of the Wildlife Act provides the highest protection for endangered species.", a: false, ex: "FALSE — Schedule I provides the highest protection. Schedule II is for general/lesser protection." },
+  { s: "The National Medicinal Plants Board was established in November 2000 under the Ministry of AYUSH.", a: true, ex: "Correct." },
+  { s: "40% of modern medicines come from plants/animals/fungi; 95% of known plant species have never been tested for medicinal value.", a: true, ex: "Correct — 40% medicines, 95% untested." },
+  { s: "Of 80,000 edible plants, only 5 species provide 90% of the global food supply.", a: false, ex: "FALSE — 20 species provide 90% of global food supply." },
+  { s: "Corn, rice, and wheat together provide 50% of the global food supply.", a: true, ex: "Correct — 50% from these 3 crops." },
+  { s: "Apple cultivars in North America reduced from 14,000 to 11, supplying 90% of the supply.", a: true, ex: "Correct — drastic reduction." },
+  { s: "Engineers Ireland has 25,000 members and declared a biodiversity emergency in March 2020.", a: true, ex: "Correct." },
+  { s: "House flies are suspected of transmitting at least 45 diseases to humans.", a: false, ex: "FALSE — At least 65 diseases." },
+  { s: "Galleria mellonella (wax worm) can biodegrade plastics using microbes in its gut.", a: true, ex: "Correct — key species for entoremediation." },
+  { s: "Solar energy and wind energy have almost zero carbon dioxide emissions.", a: true, ex: "Correct — from the Carbon Footprints PPT." },
+  { s: "A Quad equals 10¹⁵ BTU or 1.055×10¹⁸ joules (1.055 exajoules).", a: true, ex: "Correct — memorize this unit." },
+  { s: "Replacing coal with gas or oil would reduce carbon footprints.", a: true, ex: "Correct — stated directly in Carbon PPT." },
+  { s: "India's renewable energy target is 500 GW by 2030.", a: true, ex: "Correct." },
+  { s: "India is the world's second-largest renewable energy market.", a: false, ex: "FALSE — India is the third-largest." },
+  { s: "India's installed RE capacity reached 274.68 GW by March 2026, a 3.59-fold increase since 2014.", a: true, ex: "Correct — exact figures." },
+  { s: "The ozone layer is in the troposphere, about 10–15 km above the Earth.", a: false, ex: "FALSE — Ozone layer is in the stratosphere, 20–25 km above." },
+  { s: "HFOs (Hydrofluoroolefins) are the fourth generation of synthetic refrigerants.", a: true, ex: "Correct." },
+  { s: "Radioactive plutonium has a half-life of 12,000 years.", a: false, ex: "FALSE — Half-life is 24,000 years." },
+  { s: "MSW (Municipal Solid Waste) in India is 62 million tonnes per annum.", a: true, ex: "Correct." },
+  { s: "There are an estimated 8.7 million species on Earth; 1.3 million have been named.", a: true, ex: "Correct." },
+  { s: "Ecosystem services have an estimated global value exceeding $125 trillion per year.", a: true, ex: "Correct." },
+  { s: "CO₂ level in the atmosphere in 2026 is approximately 350 ppm.", a: false, ex: "FALSE — It is approximately 430 ppm." },
+  { s: "Climate change kills an estimated 30,000 people per year, mostly in the developing world.", a: true, ex: "Correct." },
+  { s: "In 2009, oil and gas industries spent $175 million on lobbying — nearly 8 times pro-environmental groups.", a: true, ex: "Correct." },
+  { s: "The 12th Report on Carcinogens lists 240 chemical substances as known or anticipated human carcinogens.", a: true, ex: "Correct." },
+  { s: "The world's population reached 8 billion in 2022.", a: true, ex: "Correct." },
+  { s: "EIA is mandatory in India for 29 categories of projects involving Rs. 50 crores and above.", a: true, ex: "Correct — Environmental Protection Act, 1986." },
+  { s: "The EIA Notification in India was issued in 2000.", a: false, ex: "FALSE — EIA Notification was issued in 2006." },
+  { s: "India is the world's 6th largest producer of chemicals.", a: true, ex: "Correct — China, USA, Germany lead." },
+  { s: "Red fire ants arrived in Alabama from Paraguay and Brazil in 1957 via lumber shipments.", a: true, ex: "Correct — Mobile, Alabama." },
+  { s: "Greenwashing is the transparent, honest practice of promoting eco-friendly products.", a: false, ex: "FALSE — Greenwashing is a DECEPTIVE marketing tactic." },
+  { s: "The Environmental Kuznets Curve is shaped like a U (rises then falls with economic growth).", a: false, ex: "FALSE — It is an inverted U-shape (degradation rises then falls as wealth increases)." },
+  { s: "KMGBF was adopted at COP 15 in 2022 with 4 major goals and 23 urgent targets for 2030.", a: true, ex: "Correct." },
+  { s: "India is one of 196 nations that have ratified the Convention on Biological Diversity.", a: true, ex: "Correct." },
+  { s: "PSUs in India contribute about 14% to India's GDP.", a: true, ex: "Correct." },
+  { s: "NPC was established in 1958 and has been designated as EADA since 18th March 2026.", a: true, ex: "Correct." },
+  { s: "NTPC released a No Net Loss of Biodiversity policy in 2022.", a: true, ex: "Correct — NTPC is a leading PSU for biodiversity." },
+  { s: "Basel Convention deals with prior informed consent for hazardous chemicals in international trade.", a: false, ex: "FALSE — That is the Rotterdam Convention. Basel = transboundary hazardous waste movements." },
+  { s: "Stockholm Convention deals with Persistent Organic Pollutants (POPs) including DDT, PCBs, and dioxins.", a: true, ex: "Correct." },
+  { s: "Hydroelectric power provides 6.2% of global energy and is criticized for affecting natural habitats.", a: true, ex: "Correct." },
+  { s: "Indoor air pollution especially affects women and children who spend the most time near domestic hearths.", a: true, ex: "Correct — from WHO data in Env. Challenges PPT." },
+  { s: "Maglev trains reach speeds of up to 603 km/h and are used in China, Japan, and Korea.", a: true, ex: "Correct." },
+];
+ 
+const DEF_DATA = [
+  { term: "Biodiversity", tag: "Biodiversity PPT", def: "The variety and differences among living organisms from all sources, including terrestrial, marine, and other aquatic ecosystems and the ecological complexes of which they are a part. Biologists define it as the 'totality of genes, species, and ecosystems of a region.' Virtually synonymous with 'Life on Earth.'" },
+  { term: "Alpha Diversity", tag: "Biodiversity PPT", def: "Within-community diversity. Refers to the diversity of organisms sharing the same Community or Habitat." },
+  { term: "Beta Diversity", tag: "Biodiversity PPT", def: "Between-community diversity. Refers to the diversity of organisms sharing two habitats." },
+  { term: "Gamma Diversity", tag: "Biodiversity PPT", def: "Diversity of the habitat over the total landscape or geographical area." },
+  { term: "Species Diversity", tag: "Biodiversity PPT", def: "An index that incorporates the number of species in an area AND their relative abundance (Simpson Index). More useful than species richness (Shannon Wiener Index)." },
+  { term: "Genetic Diversity", tag: "Biodiversity PPT", def: "A level of biodiversity referring to the total number of genetic characteristics in the genetic makeup of a species — variation within species (e.g., different breeds of dogs, rose flowers)." },
+  { term: "Biodiversity Hotspot", tag: "Biodiversity PPT", def: "A biogeography region with a significant reservoir of biodiversity threatened with destruction. Must contain at least 1,500 endemic vascular plant species AND have lost at least 70% of its original native vegetation. Also designated if it contains ≥0.5% of plant species as endemic." },
+  { term: "Threatened Species", tag: "Biodiversity PPT", def: "Any species (animals, plants, fungi, etc.) that is vulnerable to endangerment in the near future. Example: Bengal tigers." },
+  { term: "Extinct Species", tag: "Biodiversity PPT", def: "Species not found after searches of known or likely areas. May be locally or globally extinct. Examples: Quagga, Dodo." },
+  { term: "Endemic Species", tag: "Biodiversity PPT", def: "Species found only in particular areas, usually isolated by natural or geographical barriers. Example: Asiatic lion." },
+  { term: "Endangered Species", tag: "Biodiversity PPT", def: "Species in danger of extinction whose survival is difficult if negative factors causing decline continue. Per IUCN: in imminent danger of extinction, survival unlikely if decline continues. Example: Indian gharial." },
+  { term: "Conservation", tag: "Biodiversity PPT", def: "The management of human use of the biosphere so that it may yield the greatest sustainable benefit to the present generation while maintaining its potential to meet the needs and aspirations of future generations." },
+  { term: "In-situ Conservation", tag: "Biodiversity PPT", def: "Conservation of species in its natural ecosystem or man-made ecosystems. Emphasizes protection of total ecosystems through a network of protected areas (Biosphere reserves, National Parks, Wildlife Sanctuaries)." },
+  { term: "Ex-situ Conservation", tag: "Biodiversity PPT", def: "Conservation of biological diversity (especially endangered species) outside their natural habitats. Involves maintenance and breeding under controlled conditions. Examples: Zoos, Botanical Gardens, Aquaria, DNA banks, Seed banks, Gene banks." },
+  { term: "Protected Area", tag: "Biodiversity PPT", def: "An area of land and/or sea specially dedicated to the protection and maintenance of biological diversity and managed through legal and effective means." },
+  { term: "Biosystems Engineering", tag: "Biodiversity PPT", def: "An integrated science combining engineering design and analysis with biological sciences to address agricultural, environmental, food safety, and ecological concerns across the production-processing system from farm to consumers." },
+  { term: "Entoremediation", tag: "Biodiversity PPT", def: "Environmentally sustainable, natural process where insect larvae (mealworms, wax worms) consume and biodegrade plastics like polystyrene and polyethylene using gut microbes, converting them into organic, non-toxic compost." },
+  { term: "National Biodiversity Authority (NBA)", tag: "Biodiversity PPT", def: "Statutory, autonomous body established in 2003 under the Biological Diversity Act, 2002. Headquartered in Chennai. Implements the Act's provisions focusing on conservation, sustainable use, and fair benefit-sharing of biological resources." },
+  { term: "Biological Diversity Act, 2002", tag: "Biodiversity PPT", def: "Indian legislation aimed at conserving biological resources, promoting sustainable use, and ensuring fair benefit-sharing. Enacted to meet India's obligations under the UN CBD. Mandates NBA, State Biodiversity Boards (SBBs), and Biodiversity Management Committees (BMCs). Updated notably in 2023." },
+  { term: "Wild Life (Protection) Act, 1972", tag: "Biodiversity PPT", def: "Indian parliamentary act providing comprehensive legal framework for protection of wild animals, birds, and plants across the entire country. Restricts hunting, regulates wildlife trade, and establishes protected areas." },
+  { term: "Greenwashing", tag: "Env. Challenges PPT", def: "The deceptive marketing tactic of portraying a company, product, or service as more environmentally friendly or sustainable than it actually is. Used to capitalize on consumer demand through vague claims, misleading labeling, or hidden tradeoffs." },
+  { term: "Pinkwashing", tag: "Env. Challenges PPT", def: "The practice of using the color pink and pink ribbons to suggest a company is helping fight breast cancer, even when the company may use chemicals linked to cancer." },
+  { term: "Bioinvasion", tag: "Env. Challenges PPT", def: "The intentional or accidental introduction of organisms in regions where they are not native. Example: Red fire ants from Paraguay/Brazil introduced to Mobile, Alabama in 1957 via lumber shipments." },
+  { term: "Global Warming", tag: "Env. Challenges PPT", def: "The increasing average global air temperature, caused mainly by accumulation of greenhouse gases (primarily CO₂, methane, nitrous oxide) that act like the glass in a greenhouse, holding heat from the sun close to the Earth." },
+  { term: "Environmental Kuznets Curve (EKC)", tag: "Env. Challenges PPT", def: "The concept that the relationship between economic development and environmental pollution is curvilinear — an inverted U-shape. Environmental degradation increases during early economic development, peaks at a threshold, then declines as the country becomes wealthier." },
+  { term: "Multiple Chemical Sensitivity (MCS)", tag: "Env. Challenges PPT", def: "Also known as environmental illness. A condition where individuals experience adverse reactions when exposed to low levels of chemicals in everyday substances (vehicle exhaust, paint, fragrances, synthetic building materials, petrochemical products)." },
+  { term: "Planned Obsolescence", tag: "Env. Challenges PPT", def: "Manufacturers designing products intended to become obsolete so consumers continually discard them and purchase replacements. Industry profits at the expense of the environment — a conflict perspective concept." },
+  { term: "Environmental Justice / Environmental Racism", tag: "Env. Challenges PPT", def: "The tendency for marginalized populations and communities to disproportionately experience adversity due to environmental problems (e.g., vehicular pollution, industrial waste near poor areas)." },
+  { term: "Desertification", tag: "Env. Challenges PPT", def: "Land degradation process. ~29.3–30% of India's total geographical area (~96–97 million hectares) is undergoing land degradation. Highest in Rajasthan, Maharashtra, Gujarat, Karnataka, and Jammu & Kashmir. Water erosion is the primary driver (80%)." },
+  { term: "Carbon Footprint", tag: "Carbon PPT", def: "The amount of CO₂ emissions associated with an individual, event, organization, or product. Can be reduced by replacing coal with gas/oil, using solar/wind energy, hydrogen fuel cells, or cleaner electric energy." },
+  { term: "Quad (Energy Unit)", tag: "Carbon PPT", def: "A unit of energy equal to 10¹⁵ (one quadrillion) BTU, or 1.055×10¹⁸ joules (1.055 exajoules or EJ) in SI units. Reference: Gilbert M. Masters, Introduction to Environmental Engineering and Science, Prentice Hall, 1991." },
+  { term: "Acid Rain", tag: "Env. Challenges PPT", def: "Formed when air pollutants (sulfur dioxide, nitrogen oxide) mix with precipitation. Contaminates crops, forests, lakes, rivers, and oceans. Example: All fish have died in a third of lakes in New York's Adirondack Mountains due to acid rain." },
+  { term: "EIA (Environmental Impact Assessment)", tag: "Env. Challenges PPT", def: "Mandatory under the Environmental Protection Act, 1986 for 29 categories of developmental activities with investments ≥ Rs. 50 crores. The governing legal instrument is the EIA Notification, 2006, for green clearance." },
+  { term: "KMGBF (Kunming-Montreal Global Biodiversity Framework)", tag: "SKM PDF", def: "Adopted at COP 15 in 2022. Comprises 4 major goals and 23 urgent targets for 2030. Mission: halt and reverse biodiversity loss by 2030. Ultimate vision: people living in harmony with nature by 2050." },
+  { term: "Basel / Rotterdam / Stockholm Conventions", tag: "Env. Challenges PPT", def: "Basel: transboundary movements of hazardous wastes. Rotterdam: Prior Informed Consent for hazardous chemicals in international trade. Stockholm: Persistent Organic Pollutants (POPs) including DDT, PCBs, dioxins (PCDD), furans (PCDF)." },
+];
+ 
+const NUM_DATA = [
+  ["3.5 billion years", "Evolution of Earth's biodiversity", "Biodiversity PPT"],
+  ["80,000", "Edible plant species known; also species in botanical gardens worldwide", "Biodiversity PPT"],
+  ["90%", "Food crops domesticated from wild; also % global food from 20 species", "Biodiversity PPT"],
+  ["75%", "World's population depending on plants for medicine", "Biodiversity PPT"],
+  ["2.1 million", "Species identified till date", "Biodiversity PPT"],
+  ["10th globally, 4th in Asia", "India's plant diversity rank", "Biodiversity PPT"],
+  ["1,500 / 70%", "Min. endemic plants / min. vegetation loss for hotspot designation", "Biodiversity PPT"],
+  ["0.5%", "Alternate hotspot criterion: % plant species as endemic", "Biodiversity PPT"],
+  ["25 / 2", "Global biodiversity hotspots / hotspots in India", "Biodiversity PPT"],
+  ["<2% land / 50% biodiversity", "Hotspot land area vs. terrestrial biodiversity they contain", "Biodiversity PPT"],
+  ["1,82,500 sq km → 12,445 sq km (6.8%)", "Original size → remaining pristine area of Western Ghats hotspot", "Biodiversity PPT"],
+  ["89% / 83% / 91%", "Threatened birds / mammals / plants affected by habitat loss (IUCN 2000)", "Biodiversity PPT"],
+  ["11 / 80 / 420 / 4%", "Biosphere reserves / national parks / wildlife sanctuaries / area covered in India", "Biodiversity PPT"],
+  ["47,000 / 7,000", "Plant species in India / endemic among them", "Biodiversity PPT"],
+  ["172 / 2.9%", "IUCN-threatened animals in India / % of world total", "Biodiversity PPT"],
+  ["53 / 69 / 23 / 3", "Threatened mammals / birds / reptiles / amphibians in India", "Biodiversity PPT"],
+  ["3,000–4,000", "Higher plants under high threat in India", "Biodiversity PPT"],
+  ["62% / 50%", "Endemic amphibians / lizards in Western Ghats", "Biodiversity PPT"],
+  ["81,000", "Total animal species in India", "Biodiversity PPT"],
+  ["800 zoos / 3,000 species", "Zoos worldwide and species in them", "Biodiversity PPT"],
+  ["-196°C / Liquid Nitrogen", "Cryo-preservation temperature at NBPGR", "Biodiversity PPT"],
+  ["2003 / Chennai", "Year NBA established / headquarters location", "Biodiversity PPT"],
+  ["25,000", "Engineers Ireland members", "Biodiversity PPT"],
+  ["65 diseases", "Diseases transmitted by house flies", "Biodiversity PPT"],
+  ["14,000 → 11", "Apple cultivar reduction in North America", "Biodiversity PPT"],
+  ["20 / 90% / 50%", "Species providing global food / % provided / % from corn+rice+wheat", "Biodiversity PPT"],
+  ["40% / 95%", "Medicines from nature / untested plant species", "Biodiversity PPT"],
+  ["1981 / Captopril", "Year FDA approved first snake-venom drug / drug name", "Biodiversity PPT"],
+  ["March 2020", "Engineers Ireland biodiversity emergency declaration", "Biodiversity PPT"],
+  ["November 2000 / AYUSH", "NMPB establishment date / ministry", "Biodiversity PPT"],
+  ["196", "Nations ratified CBD", "SKM PDF"],
+  ["COP 15 / 2022 / 4 goals / 23 targets", "KMGBF adoption details", "SKM PDF"],
+  ["2030 / 2050", "KMGBF biodiversity halt target / harmony with nature vision", "SKM PDF"],
+  ["14%", "PSU contribution to India's GDP", "SKM PDF"],
+  ["1958 / 10,000+", "NPC established / organizations supported", "SKM PDF"],
+  ["18th March 2026", "NPC designated as EADA", "SKM PDF"],
+  ["10¹⁵ BTU = 1.055×10¹⁸ J", "One Quad unit of energy", "Carbon PPT"],
+  ["34.3%", "Global renewables share in electricity (2026)", "Env. PPT"],
+  ["274.68 GW / 3.59-fold", "India's RE capacity by March 2026 / increase since 2014", "Env. PPT"],
+  ["150.26 GW / 56.09 GW", "India's solar / wind capacity", "Env. PPT"],
+  ["500 GW by 2030", "India's renewable energy target", "Env. PPT"],
+  ["1 billion+", "People lacking access to clean water", "Env. PPT"],
+  ["3 million/year", "Air pollution deaths per year", "Env. PPT"],
+  ["1.6 million/year", "Indoor air pollution deaths (WHO 2010)", "Env. PPT"],
+  ["Stratosphere / 20–25 km", "Ozone layer location and altitude", "Env. PPT"],
+  ["24,000 years", "Half-life of radioactive plutonium", "Env. PPT"],
+  ["2.7 → 3.7 → 4.3 → ~5 lbs/day", "US per-capita garbage: 1960 → 1980 → 2009 → 2017", "Env. PPT"],
+  ["62 mT/year", "Municipal Solid Waste in India", "Env. PPT"],
+  ["8.7 million / 1.3 million", "Estimated species on Earth / named species", "Env. PPT"],
+  ["$125 trillion/year", "Global value of ecosystem services", "Env. PPT"],
+  ["430 ppm", "Atmospheric CO₂ level in 2026", "Env. PPT"],
+  ["1.5°C", "Earth's temperature rise over 1800s baseline", "Env. PPT"],
+  ["30,000/year", "Deaths from climate change", "Env. PPT"],
+  ["$175 million / 8×", "Oil/gas lobbying (2009) / multiple vs pro-environment groups", "Env. PPT"],
+  ["3 million tons/year", "Toxic chemicals released into environment", "Env. PPT"],
+  ["240", "Carcinogens listed in 12th Report", "Env. PPT"],
+  ["8 billion / 2022", "World population milestone", "Env. PPT"],
+  ["34% / 56%", "India urbanisation rate / global average", "Env. PPT"],
+  ["29 categories / Rs. 50 Cr", "EIA mandatory thresholds", "Env. PPT"],
+  ["EIA Notification, 2006", "Governing legal instrument for EIA in India", "Env. PPT"],
+  ["6th largest", "India's rank in global chemical production", "Env. PPT"],
+  ["840,000", "Dams worldwide", "Env. PPT"],
+  ["6.2%", "Hydroelectric power's share of global energy", "Env. PPT"],
+  ["603 km/h", "Maglev maximum speed", "Env. PPT"],
+  ["29.3–30% / 80%", "India's land degradation area / water erosion as driver", "Env. PPT"],
+];
+ 
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let revealed = {}; // blank index -> true
+let tfAnswered = {}; // tf index -> 'T'|'F'
+let tfCorrect = 0;
+let tfTotal = 0;
+ 
+// ═══════════════════════════════════════════
+// BUILD FILL-IN-THE-BLANK
+// ═══════════════════════════════════════════
+function buildFillups() {
+  const container = document.getElementById('fb-container');
+  container.innerHTML = '';
+  FB_DATA.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'fb-item';
+    // replace ___ with clickable blanks
+    let html = escapeHTML(item.q).replace(/___/g, () => {
+      return `<span class="blank-cover" id="blank-${i}" onclick="revealBlank(${i})" title="Click to reveal">▢ click</span>`;
+    });
+    div.innerHTML = `${html}<div class="fb-meta"><span class="src-tag">${escapeHTML(item.src)}</span></div>`;
+    container.appendChild(div);
+  });
+}
+ 
+function revealBlank(i) {
+  const el = document.getElementById(`blank-${i}`);
+  if (!el) return;
+  if (el.classList.contains('revealed')) return;
+  el.textContent = FB_DATA[i].a;
+  el.classList.add('revealed');
+  el.onclick = null;
+  revealed[i] = true;
+  updateProgress();
+}
+ 
+function revealAll() {
+  FB_DATA.forEach((_, i) => revealBlank(i));
+}
+ 
+function resetAll() {
+  revealed = {};
+  buildFillups();
+  updateProgress();
+}
+ 
+// ═══════════════════════════════════════════
+// BUILD TRUE/FALSE
+// ═══════════════════════════════════════════
+function buildTF() {
+  const container = document.getElementById('tf-container');
+  container.innerHTML = '';
+  TF_DATA.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'tf-card';
+    div.id = `tf-card-${i}`;
+    div.innerHTML = `
+      <div class="tf-statement">${escapeHTML(item.s)}</div>
+      <div class="tf-options">
+        <button class="tf-btn" id="tf-T-${i}" onclick="answerTF(${i}, true)">✓ TRUE</button>
+        <button class="tf-btn" id="tf-F-${i}" onclick="answerTF(${i}, false)">✗ FALSE</button>
+      </div>
+      <div class="tf-explanation" id="tf-exp-${i}">${escapeHTML(item.ex)}</div>
+    `;
+    container.appendChild(div);
+  });
+}
+ 
+function answerTF(i, userAnswer) {
+  const item = TF_DATA[i];
+  const isCorrect = (userAnswer === item.a);
+  const tBtn = document.getElementById(`tf-T-${i}`);
+  const fBtn = document.getElementById(`tf-F-${i}`);
+  const exp = document.getElementById(`tf-exp-${i}`);
+ 
+  tBtn.disabled = true;
+  fBtn.disabled = true;
+ 
+  if (userAnswer) {
+    tBtn.classList.add(isCorrect ? 'correct' : 'wrong');
+    if (!isCorrect) fBtn.classList.add('reveal-correct');
+  } else {
+    fBtn.classList.add(isCorrect ? 'correct' : 'wrong');
+    if (!isCorrect) tBtn.classList.add('reveal-correct');
+  }
+ 
+  exp.classList.add('show');
+ 
+  if (!tfAnswered[i]) {
+    tfAnswered[i] = userAnswer ? 'T' : 'F';
+    if (isCorrect) tfCorrect++;
+    tfTotal++;
+    updateScore();
+  }
+  updateProgress();
+}
+ 
+function resetTF() {
+  tfAnswered = {};
+  tfCorrect = 0;
+  tfTotal = 0;
+  buildTF();
+  updateScore();
+  updateProgress();
+}
+ 
+// ═══════════════════════════════════════════
+// BUILD DEFINITIONS
+// ═══════════════════════════════════════════
+function buildDefs() {
+  const container = document.getElementById('def-container');
+  container.innerHTML = '';
+  DEF_DATA.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'def-card';
+    div.id = `def-${i}`;
+    div.innerHTML = `
+      <div class="def-tag">${escapeHTML(item.tag)}</div>
+      <div class="def-term">${escapeHTML(item.term)} <span class="arrow">▶</span></div>
+      <div class="def-hint">Click to reveal definition</div>
+      <div class="def-meaning">${escapeHTML(item.def)}</div>
+    `;
+    div.addEventListener('click', () => toggleDef(i));
+    container.appendChild(div);
+  });
+}
+ 
+function toggleDef(i) {
+  const card = document.getElementById(`def-${i}`);
+  card.classList.toggle('open');
+  const hint = card.querySelector('.def-hint');
+  hint.style.display = card.classList.contains('open') ? 'none' : 'block';
+}
+ 
+function expandAllDefs() {
+  document.querySelectorAll('.def-card').forEach(c => {
+    c.classList.add('open');
+    c.querySelector('.def-hint').style.display = 'none';
+  });
+}
+function collapseAllDefs() {
+  document.querySelectorAll('.def-card').forEach(c => {
+    c.classList.remove('open');
+    c.querySelector('.def-hint').style.display = 'block';
+  });
+}
+ 
+// ═══════════════════════════════════════════
+// BUILD NUMBERS TABLE
+// ═══════════════════════════════════════════
+function buildNumbers() {
+  const table = document.querySelector('.num-table');
+  // Clear existing rows except header
+  while (table.rows.length > 1) table.deleteRow(1);
+  NUM_DATA.forEach(([num, desc, src]) => {
+    const tr = table.insertRow();
+    tr.innerHTML = `<td class="num">${escapeHTML(num)}</td><td>${escapeHTML(desc)}</td><td><span style="font-size:10px;color:var(--text3)">${escapeHTML(src)}</span></td>`;
+  });
+}
+ 
+// ═══════════════════════════════════════════
+// TAB SWITCHING
+// ═══════════════════════════════════════════
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`tab-${name}`).classList.add('active');
+  event.target.classList.add('active');
+}
+ 
+// ═══════════════════════════════════════════
+// SCORE & PROGRESS
+// ═══════════════════════════════════════════
+function updateScore() {
+  document.getElementById('score-display').textContent = `${tfCorrect} / ${tfTotal}`;
+}
+ 
+function updateProgress() {
+  const fbDone = Object.keys(revealed).length;
+  const tfDone = Object.keys(tfAnswered).length;
+  const total = FB_DATA.length + TF_DATA.length;
+  const done = fbDone + tfDone;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct + '%';
+}
+ 
+function escapeHTML(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+ 
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+buildFillups();
+buildTF();
+buildDefs();
+buildNumbers();
+updateScore();
+updateProgress();
+</script>
+</body>
+</html>
