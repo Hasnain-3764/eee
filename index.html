@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ecology Exam Master Guide</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Georgia, 'Times New Roman', serif; background: #0d1117; color: #e6edf3; line-height: 1.7; }
+  
+  .header { background: linear-gradient(135deg, #1a2744 0%, #0d2137 100%); padding: 2.5rem 2rem; border-bottom: 2px solid #2ea44f; }
+  .header h1 { font-size: 2rem; color: #fff; letter-spacing: 1px; margin-bottom: 0.5rem; }
+  .header p { color: #8b949e; font-style: italic; font-size: 0.95rem; }
+  .marks-bar { display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
+  .mark-badge { background: #161b22; border: 1px solid #30363d; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.8rem; font-family: 'Courier New', monospace; }
+  .mark-badge span { color: #2ea44f; font-weight: bold; }
+
+  .tabs { display: flex; background: #161b22; border-bottom: 1px solid #30363d; padding: 0 2rem; gap: 0; overflow-x: auto; }
+  .tab { padding: 1rem 1.5rem; cursor: pointer; border-bottom: 3px solid transparent; font-size: 0.9rem; color: #8b949e; white-space: nowrap; transition: all 0.2s; font-family: 'Courier New', monospace; letter-spacing: 0.5px; }
+  .tab:hover { color: #e6edf3; }
+  .tab.active { color: #2ea44f; border-bottom-color: #2ea44f; }
+
+  .section { display: none; padding: 2rem; max-width: 960px; margin: 0 auto; }
+  .section.active { display: block; }
+
+  .tip { background: #162032; border-left: 4px solid #f0883e; padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin-bottom: 1.5rem; font-size: 0.88rem; color: #f0883e; }
+  .tip strong { display: block; margin-bottom: 0.3rem; color: #f0883e; }
+
+  /* FILL IN THE BLANKS */
+  .fitb-category { margin-bottom: 2.5rem; }
+  .fitb-category-title { font-size: 1rem; color: #58a6ff; font-family: 'Courier New', monospace; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #21262d; }
+  
+  .fitb-card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 0.75rem; transition: border-color 0.2s; }
+  .fitb-card:hover { border-color: #30363d; }
+  .fitb-sentence { font-size: 0.92rem; color: #c9d1d9; line-height: 1.8; }
+  .blank { display: inline-block; background: #0d2137; border: 1px dashed #2ea44f; border-radius: 4px; min-width: 100px; padding: 0 8px; color: transparent; cursor: pointer; user-select: none; transition: all 0.3s; vertical-align: middle; font-family: 'Courier New', monospace; font-size: 0.85rem; }
+  .blank.revealed { color: #2ea44f; background: #0d2a1a; border-style: solid; border-color: #2ea44f; }
+  .blank.highlighted { color: #f0883e; background: #2a1a00; border-color: #f0883e; border-style: solid; }
+  .reveal-hint { font-size: 0.75rem; color: #484f58; margin-top: 0.4rem; font-style: italic; }
+  .fitb-controls { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .btn { padding: 0.5rem 1.2rem; border-radius: 6px; border: 1px solid #30363d; background: #21262d; color: #c9d1d9; cursor: pointer; font-size: 0.85rem; font-family: 'Courier New', monospace; transition: all 0.2s; }
+  .btn:hover { background: #30363d; color: #e6edf3; }
+  .btn.green { border-color: #2ea44f; color: #2ea44f; }
+  .btn.green:hover { background: #0d2a1a; }
+  .btn.orange { border-color: #f0883e; color: #f0883e; }
+  .btn.orange:hover { background: #2a1500; }
+
+  /* TRUE / FALSE */
+  .tf-card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 1.1rem 1.25rem; margin-bottom: 0.75rem; }
+  .tf-statement { font-size: 0.92rem; color: #c9d1d9; margin-bottom: 0.75rem; line-height: 1.7; }
+  .tf-options { display: flex; gap: 0.6rem; }
+  .tf-btn { padding: 0.35rem 1.2rem; border-radius: 20px; border: 1px solid #30363d; background: transparent; cursor: pointer; font-size: 0.8rem; font-family: 'Courier New', monospace; transition: all 0.2s; color: #8b949e; }
+  .tf-btn:hover { border-color: #58a6ff; color: #58a6ff; }
+  .tf-btn.correct { background: #0d2a1a; border-color: #2ea44f; color: #2ea44f; }
+  .tf-btn.wrong { background: #2d1011; border-color: #f85149; color: #f85149; }
+  .tf-explanation { margin-top: 0.6rem; padding: 0.6rem 0.8rem; background: #0d1117; border-radius: 6px; font-size: 0.82rem; color: #8b949e; display: none; border-left: 3px solid #30363d; }
+  .tf-explanation.show { display: block; }
+  .tf-explanation.true-exp { border-left-color: #2ea44f; color: #7ee787; }
+  .tf-explanation.false-exp { border-left-color: #f85149; color: #ffa198; }
+  .tf-num { display: inline-block; width: 24px; height: 24px; background: #21262d; border-radius: 50%; text-align: center; line-height: 24px; font-size: 0.75rem; font-family: 'Courier New', monospace; color: #8b949e; margin-right: 0.5rem; flex-shrink: 0; }
+  .tf-header { display: flex; align-items: flex-start; }
+  .tf-text-wrap { flex: 1; }
+  .tf-score { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; display: flex; gap: 2rem; align-items: center; }
+  .tf-score-num { font-size: 2rem; font-weight: bold; color: #2ea44f; font-family: 'Courier New', monospace; }
+  .tf-score-label { font-size: 0.8rem; color: #8b949e; }
+  .tf-category-title { font-size: 0.9rem; color: #f0883e; font-family: 'Courier New', monospace; letter-spacing: 1px; margin: 1.5rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 1px dashed #21262d; }
+
+  /* DEFINITIONS */
+  .def-grid { display: grid; gap: 0.75rem; }
+  .def-card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 1.1rem 1.25rem; cursor: pointer; transition: border-color 0.2s; }
+  .def-card:hover { border-color: #388bfd; }
+  .def-term { font-size: 0.98rem; color: #79c0ff; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+  .def-toggle { font-size: 0.75rem; color: #484f58; font-family: 'Courier New', monospace; }
+  .def-body { margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid #21262d; font-size: 0.88rem; color: #c9d1d9; line-height: 1.75; display: none; }
+  .def-body.show { display: block; }
+  .def-keyword { color: #2ea44f; font-weight: bold; }
+  .def-category { font-size: 0.75rem; color: #484f58; font-family: 'Courier New', monospace; margin-top: 0.5rem; }
+
+  /* FORMULAS */
+  .formula-card { background: #0d2137; border: 1px solid #1f4d6b; border-radius: 8px; padding: 1.25rem; margin-bottom: 1rem; }
+  .formula-title { color: #58a6ff; font-size: 0.9rem; font-family: 'Courier New', monospace; margin-bottom: 0.75rem; letter-spacing: 0.5px; }
+  .formula-eq { background: #0d1117; padding: 0.75rem 1rem; border-radius: 6px; font-family: 'Courier New', monospace; font-size: 0.88rem; color: #a5d6ff; margin-bottom: 0.75rem; border: 1px solid #21262d; }
+  .formula-vars { font-size: 0.82rem; color: #8b949e; }
+  .formula-vars span { color: #c9d1d9; }
+
+  .progress-bar { height: 3px; background: #21262d; border-radius: 2px; margin-top: 0.5rem; }
+  .progress-fill { height: 100%; background: #2ea44f; border-radius: 2px; transition: width 0.3s; }
+
+  .stats-row { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .stat-box { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 0.75rem 1.25rem; flex: 1; min-width: 120px; }
+  .stat-num { font-size: 1.6rem; font-weight: bold; color: #2ea44f; font-family: 'Courier New', monospace; }
+  .stat-lbl { font-size: 0.75rem; color: #8b949e; margin-top: 0.2rem; }
+
+  @media (max-width: 600px) {
+    .header { padding: 1.5rem 1rem; }
+    .section { padding: 1rem; }
+    .tabs { padding: 0 0.5rem; }
+    .tab { padding: 0.75rem 1rem; font-size: 0.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📚 Ecology — Master Exam Guide</h1>
+  <p>Everything from the slides. Diabolical-professor-proof.</p>
+  <div class="marks-bar">
+    <div class="mark-badge">Fill-in-Blanks: <span>20 × 0.5 = 10 marks</span></div>
+    <div class="mark-badge">True / False: <span>20 × 0.5 = 10 marks</span></div>
+    <div class="mark-badge">Definitions: <span>5 × 1 = 5 marks</span></div>
+    <div class="mark-badge">Total: <span>25 marks</span></div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('fitb')">Fill in Blanks</div>
+  <div class="tab" onclick="switchTab('tf')">True / False</div>
+  <div class="tab" onclick="switchTab('defs')">Definitions</div>
+  <div class="tab" onclick="switchTab('formulas')">Formulas & Numbers</div>
+</div>
+
+<!-- ===== FILL IN THE BLANKS ===== -->
+<div class="section active" id="fitb">
+  <div class="tip">
+    <strong>⚡ How to use this section</strong>
+    Click any green dashed box to reveal the hidden keyword. "Reveal All" shows everything. "Hide All" resets. Every statement is pulled directly from the slides.
+  </div>
+  <div class="fitb-controls">
+    <button class="btn green" onclick="revealAll()">Reveal All Answers</button>
+    <button class="btn orange" onclick="hideAll()">Hide All</button>
+  </div>
+
+  <div class="fitb-category">
+    <div class="fitb-category-title">🌍 Core Definitions & Scope</div>
+
+    <div class="fitb-card">
+      <div class="fitb-sentence">Ecology is the study of the interactions between living organisms, including humans, animals and the overall <span class="blank" onclick="toggleBlank(this)" data-answer="environment">environment</span>.</div>
+      <div class="reveal-hint">↑ click the box to reveal</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">German scientist <span class="blank" onclick="toggleBlank(this)" data-answer="Ernst Haeckel">Ernst Haeckel</span> defined ecology in <span class="blank highlighted">1866</span> as the relationship between living organisms and the environment.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The largest scale of ecological organization is the <span class="blank" onclick="toggleBlank(this)" data-answer="biosphere">biosphere</span>: the total sum of ecosystems on the planet.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The biological world is organized into a nested hierarchy ranging from genes → cells → tissues → organs → organisms → species → populations → communities → ecosystems → biomes → <span class="blank" onclick="toggleBlank(this)" data-answer="biosphere">biosphere</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Ecological hierarchy is grouped into four levels: individual, population, <span class="blank" onclick="toggleBlank(this)" data-answer="community">community</span>, and ecosystem level.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The <span class="blank" onclick="toggleBlank(this)" data-answer="individual">individual</span> level is the first level of ecological hierarchy.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Ecology is divided into <span class="blank" onclick="toggleBlank(this)" data-answer="autecology">autecology</span> (individual species) and <span class="blank" onclick="toggleBlank(this)" data-answer="synecology">synecology</span> (communities).</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Evolutionary concepts relating to <span class="blank" onclick="toggleBlank(this)" data-answer="adaptation and natural selection">adaptation and natural selection</span> are cornerstones of modern ecological theory.</div>
+    </div>
+  </div>
+
+  <div class="fitb-category">
+    <div class="fitb-category-title">🔄 Panarchy & Resilience</div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">A panarchy exhibits <span class="blank" onclick="toggleBlank(this)" data-answer="non-linear">non-linear</span> behaviors — effect and cause are disproportionate.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">A panarchy is a set of nested adaptive cycles across <span class="blank" onclick="toggleBlank(this)" data-answer="time and space">time and space</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Panarchy grew out of <span class="blank" onclick="toggleBlank(this)" data-answer="resilience and hierarchy">resilience and hierarchy</span> theory.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Panarchy identifies four basic stages of ecosystems: <span class="blank" onclick="toggleBlank(this)" data-answer="exploitation (r)">exploitation (r)</span>, <span class="blank" onclick="toggleBlank(this)" data-answer="conservation (K)">conservation (K)</span>, <span class="blank" onclick="toggleBlank(this)" data-answer="release (omega)">release (omega)</span>, and <span class="blank" onclick="toggleBlank(this)" data-answer="reorganization (alpha)">reorganization (alpha)</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">A thing is said to be <span class="blank" onclick="toggleBlank(this)" data-answer="resilient">resilient</span> if it has the capacity to withstand or recover from disturbance.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The 2025 LA wildfires in areas like Hollywood Hills and Pacific Palisades serve as a classic example of <span class="blank" onclick="toggleBlank(this)" data-answer="panarchy">panarchy</span>.</div>
+    </div>
+  </div>
+
+  <div class="fitb-category">
+    <div class="fitb-category-title">🌿 Biodiversity & Habitat</div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Biodiversity includes species diversity, <span class="blank" onclick="toggleBlank(this)" data-answer="ecosystem diversity">ecosystem diversity</span>, and <span class="blank" onclick="toggleBlank(this)" data-answer="genetic diversity">genetic diversity</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The total number of species on earth is estimated to be about <span class="blank highlighted">7 million</span> as estimated by <span class="blank" onclick="toggleBlank(this)" data-answer="Robert May">Robert May</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Plants constitute more than <span class="blank highlighted">70%</span> of all species recorded; animals constitute less than <span class="blank highlighted">22%</span>; insects constitute more than <span class="blank highlighted">70%</span> of all animal species.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The habitat of a species describes the environment over which a species is known to occur and the type of <span class="blank" onclick="toggleBlank(this)" data-answer="community">community</span> that forms as a result.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence"><span class="blank" onclick="toggleBlank(this)" data-answer="Ontogenetic niche shift (ONS)">Ontogenetic niche shift (ONS)</span> is an ecological phenomenon where an organism changes its diet or habitat during its <span class="blank" onclick="toggleBlank(this)" data-answer="ontogeny (development)">ontogeny (development)</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Fish commonly undergo <span class="blank" onclick="toggleBlank(this)" data-answer="ontogenetic habitat shifts">ontogenetic habitat shifts</span> — they change habitat over their life span as they grow in size.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">A montane ecosystem is one found in <span class="blank" onclick="toggleBlank(this)" data-answer="mountains">mountains</span>.</div>
+    </div>
+  </div>
+
+  <div class="fitb-category">
+    <div class="fitb-category-title">🐾 Niche, Ecotope & Niche Construction</div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The <span class="blank" onclick="toggleBlank(this)" data-answer="fundamental niche">fundamental niche</span> is the set of environmental conditions under which a species is able to persist. The <span class="blank" onclick="toggleBlank(this)" data-answer="realized niche">realized niche</span> is the set of environmental PLUS ecological conditions under which a species persists.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The <span class="blank" onclick="toggleBlank(this)" data-answer="competitive exclusion principle">competitive exclusion principle</span> states that two species cannot coexist indefinitely by living off the same limiting resource.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The habitat plus the niche is called the <span class="blank" onclick="toggleBlank(this)" data-answer="ecotope">ecotope</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Classic examples of niche construction include <span class="blank" onclick="toggleBlank(this)" data-answer="beavers building dams">beavers building dams</span>, birds building nests, and worms altering soil structure.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The "human climate niche" averages <span class="blank highlighted">11–15°C</span> and humans have been thriving in it for thousands of years.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">As of 2024, more than <span class="blank highlighted">600 million</span> people are already living outside the crucial "climate niche."</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Beavers are called <span class="blank" onclick="toggleBlank(this)" data-answer="ecosystem engineers">ecosystem engineers</span> because they create, modify, and maintain habitat and ecosystems.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Beavers do not live in the dams but in the deep pond in structures called <span class="blank" onclick="toggleBlank(this)" data-answer="lodges">lodges</span>.</div>
+    </div>
+  </div>
+
+  <div class="fitb-category">
+    <div class="fitb-category-title">🏗 Ecosystem Engineering</div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The concept of ecosystem engineering was introduced by <span class="blank" onclick="toggleBlank(this)" data-answer="Jones et al. (1994)">Jones et al. (1994)</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence"><span class="blank" onclick="toggleBlank(this)" data-answer="Autogenic engineers">Autogenic engineers</span> change the environment via their own physical structures (e.g., corals creating reefs).</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence"><span class="blank" onclick="toggleBlank(this)" data-answer="Allogenic engineers">Allogenic engineers</span> transform living or non-living materials from one physical state to another (e.g., beavers building dams, earthworms restructuring soil).</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Termite mounds maintain a constant internal temperature through the design of <span class="blank" onclick="toggleBlank(this)" data-answer="air-conditioning chimneys">air-conditioning chimneys</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The process of ecosystem engineering relates to niche construction, but ecosystem engineering relates only to <span class="blank" onclick="toggleBlank(this)" data-answer="physical modifications">physical modifications</span> of habitat, whereas niche construction also considers evolutionary implications.</div>
+    </div>
+  </div>
+
+  <div class="fitb-category">
+    <div class="fitb-category-title">🌲 Biomes & Biosphere</div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Biomes are the largest geographic biotic unit — a major community of plants and animals with similar life forms. Types include: aquatic, grassland, forest, desert, <span class="blank" onclick="toggleBlank(this)" data-answer="tundra">tundra</span> (treeless), and <span class="blank" onclick="toggleBlank(this)" data-answer="taiga">taiga</span> (coniferous forest).</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The total human gut microbiome weighs approximately <span class="blank highlighted">1 to 2 kilograms</span> in an average adult.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Coral reefs are formed of coral <span class="blank" onclick="toggleBlank(this)" data-answer="polyps">polyps</span> held together by <span class="blank" onclick="toggleBlank(this)" data-answer="calcium carbonate">calcium carbonate</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Marine microbes drive chemical reactions that contribute to Earth's habitability and are responsible for the cycling of elements such as carbon, oxygen, nitrogen, phosphorus, <span class="blank" onclick="toggleBlank(this)" data-answer="sulfur">sulfur</span>, minerals, salts and trace gases.</div>
+    </div>
+  </div>
+
+  <div class="fitb-category">
+    <div class="fitb-category-title">👥 Population Ecology</div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">A population consists of individuals of the same species that live, interact, and migrate through the same <span class="blank" onclick="toggleBlank(this)" data-answer="niche and habitat">niche and habitat</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The Malthusian law states human population increases <span class="blank" onclick="toggleBlank(this)" data-answer="geometrically (exponentially)">geometrically (exponentially)</span>, while food production increases only <span class="blank" onclick="toggleBlank(this)" data-answer="arithmetically (linearly)">arithmetically (linearly)</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Simplified population models start with four variables: death, birth, <span class="blank" onclick="toggleBlank(this)" data-answer="immigration">immigration</span>, and <span class="blank" onclick="toggleBlank(this)" data-answer="emigration">emigration</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The Malthusian growth model was transformed into the <span class="blank" onclick="toggleBlank(this)" data-answer="logistic equation">logistic equation</span> by <span class="blank" onclick="toggleBlank(this)" data-answer="Pierre Verhulst">Pierre Verhulst</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The exponential growth formula is: r = <span class="blank" onclick="toggleBlank(this)" data-answer="ln(pn/p0)/n">ln(pn/p0)/n</span>, where r is the exponential rate of growth.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">In the logistic equation, r is the maximum per-capita rate of change (intrinsic rate of growth) and α is the <span class="blank" onclick="toggleBlank(this)" data-answer="crowding coefficient">crowding coefficient</span>, which represents the reduction in population growth rate per individual added.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">In metapopulation terminology, migrating individuals are classed as <span class="blank" onclick="toggleBlank(this)" data-answer="emigrants">emigrants</span> (leaving a region) or <span class="blank" onclick="toggleBlank(this)" data-answer="immigrants">immigrants</span> (entering a region), and sites are classed as <span class="blank" onclick="toggleBlank(this)" data-answer="sources">sources</span> or <span class="blank" onclick="toggleBlank(this)" data-answer="sinks">sinks</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The concept of metapopulations was defined by <span class="blank" onclick="toggleBlank(this)" data-answer="Levins">Levins</span> in <span class="blank highlighted">1969</span> as "a population of populations which go extinct locally and recolonize."</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence"><span class="blank" onclick="toggleBlank(this)" data-answer="Source patches">Source patches</span> are productive sites that generate a seasonal supply of juveniles that migrate to other patch locations. <span class="blank" onclick="toggleBlank(this)" data-answer="Sink patches">Sink patches</span> are unproductive sites that only receive migrants.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence"><span class="blank" onclick="toggleBlank(this)" data-answer="Dispersal">Dispersal</span> is the one-way permanent movement of individuals from their birth population into another population (distinguished from migration which is seasonal/return).</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">When an island is first colonized, the population experiences <span class="blank" onclick="toggleBlank(this)" data-answer="density-independent">density-independent</span> forces of natural selection, called <span class="blank" onclick="toggleBlank(this)" data-answer="r-selection">r-selection</span>. As the population approaches carrying capacity, it experiences <span class="blank" onclick="toggleBlank(this)" data-answer="density-dependent">density-dependent</span> forces, called <span class="blank" onclick="toggleBlank(this)" data-answer="K-selection">K-selection</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">An r-selected species has high birth rates, low levels of <span class="blank" onclick="toggleBlank(this)" data-answer="parental investment">parental investment</span>, and high rates of mortality before maturity. Humans and elephants are examples of <span class="blank" onclick="toggleBlank(this)" data-answer="K-selected">K-selected</span> species.</div>
+    </div>
+  </div>
+
+  <div class="fitb-category">
+    <div class="fitb-category-title">🍽 Food Webs & Trophic Levels</div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">A food web is the archetypal ecological <span class="blank" onclick="toggleBlank(this)" data-answer="network">network</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Plants capture solar energy and synthesize simple sugars during <span class="blank" onclick="toggleBlank(this)" data-answer="photosynthesis">photosynthesis</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The simplified linear feeding pathway from bottom trophic species to top consumer is called the <span class="blank" onclick="toggleBlank(this)" data-answer="food chain">food chain</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Species are broadly categorized as <span class="blank" onclick="toggleBlank(this)" data-answer="autotrophs">autotrophs</span> (primary producers), <span class="blank" onclick="toggleBlank(this)" data-answer="heterotrophs">heterotrophs</span> (consumers), and <span class="blank" onclick="toggleBlank(this)" data-answer="detritivores">detritivores</span> (decomposers).</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Autotrophs produce their own food by photosynthesis or <span class="blank" onclick="toggleBlank(this)" data-answer="chemosynthesis">chemosynthesis</span>. Key enzymes involved are <span class="blank" onclick="toggleBlank(this)" data-answer="RuBisCO">RuBisCO</span> and carbonic anhydrase.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Heterotrophs can be sub-divided into primary consumers (strict herbivores), secondary consumers (carnivores feeding on herbivores), and <span class="blank" onclick="toggleBlank(this)" data-answer="tertiary consumers">tertiary consumers</span> (predators feeding on a mix of herbivores and predators).</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Omnivores do not fit neatly into a functional category — they are considered to have greater functional influence as <span class="blank" onclick="toggleBlank(this)" data-answer="predators">predators</span> because they are relatively inefficient at grazing.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">A <span class="blank" onclick="toggleBlank(this)" data-answer="keystone species">keystone species</span> is connected to a disproportionately large number of other species in the food web and has lower levels of biomass relative to the importance of its role.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Sea otters (Enhydra lutris) limit the density of <span class="blank" onclick="toggleBlank(this)" data-answer="sea urchins">sea urchins</span> that feed on kelp. Hunting of sea otters led indirectly to the extinction of the <span class="blank" onclick="toggleBlank(this)" data-answer="Steller's sea cow (Hydrodamalis gigas)">Steller's sea cow (Hydrodamalis gigas)</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Sloth bears are a keystone species in India because their food, consisting mostly of termites, fruits, and tubers, helps preserve the health of a <span class="blank" onclick="toggleBlank(this)" data-answer="forest">forest</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Trophic cascades are ecological phenomena when a change in population of a species causes a <span class="blank" onclick="toggleBlank(this)" data-answer="ripple effect">ripple effect</span> throughout the food chain.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">In India, vulture populations dwindled up to <span class="blank highlighted">95%</span> due to the anti-inflammatory drug <span class="blank" onclick="toggleBlank(this)" data-answer="diclofenac">diclofenac</span> administered to cattle, leading to a rabies outbreak through rising feral dog populations.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence"><span class="blank" onclick="toggleBlank(this)" data-answer="Insectivores">Insectivores</span> are animals, primarily small mammals like shrews, moles, and hedgehogs, that subsist mainly on insects, larvae, and other invertebrates.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Zooplankton are small aquatic microorganisms including crustaceans, rotifers, open water insect larvae and aquatic mites. They may be <span class="blank" onclick="toggleBlank(this)" data-answer="herbivores, carnivores, or omnivores">herbivores, carnivores, or omnivores</span>.</div>
+    </div>
+  </div>
+
+  <div class="fitb-category">
+    <div class="fitb-category-title">🤝 Species Interactions & Coevolution</div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">If there is a physical connection between host and associate, the relationship is called <span class="blank" onclick="toggleBlank(this)" data-answer="symbiosis">symbiosis</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Approximately <span class="blank highlighted">60%</span> of all plants have a symbiotic relationship with <span class="blank" onclick="toggleBlank(this)" data-answer="Arbuscular mycorrhizal fungi">Arbuscular mycorrhizal fungi</span> living in their roots, forming an exchange network of phosphates, carbohydrates for mineral nutrients.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">When the associate benefits while the host suffers, the relationship is called <span class="blank" onclick="toggleBlank(this)" data-answer="parasitism">parasitism</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Indirect mutualisms occur where organisms live apart. This is called <span class="blank" onclick="toggleBlank(this)" data-answer="commensalism">commensalism</span> when many others receive benefits at no cost or harm to the provider (e.g., trees supplying oxygen).</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The <span class="blank" onclick="toggleBlank(this)" data-answer="Red Queen Hypothesis">Red Queen Hypothesis</span> posits that parasites track down and specialize on the locally common genetic defense systems of their host, driving evolution of sexual reproduction.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Relationships between species that are mutually or reciprocally beneficial are called <span class="blank" onclick="toggleBlank(this)" data-answer="mutualisms">mutualisms</span>. Examples include fungus-growing ants, bacteria in insect guts, fig wasp-yucca moth pollination, lichens (fungi + algae), and corals with algae.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence"><span class="blank" onclick="toggleBlank(this)" data-answer="Allelopathy">Allelopathy</span> is the phenomenon where plants like Banyan, Eucalyptus, and Black walnut suppress growth of other plants.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence"><span class="blank" onclick="toggleBlank(this)" data-answer="Phenotype">Phenotype</span> refers to an individual's observable traits, such as height, eye color, and blood type.</div>
+    </div>
+  </div>
+
+  <div class="fitb-category">
+    <div class="fitb-category-title">🗺 Biogeography & Distribution</div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Biogeography is an amalgamation of <span class="blank" onclick="toggleBlank(this)" data-answer="biology and geography">biology and geography</span> — the comparative study of geographic distribution of organisms and corresponding evolution of their traits in space and time.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">In the r/K-selection model, <span class="blank" onclick="toggleBlank(this)" data-answer="r">r</span> is the intrinsic rate of natural increase and <span class="blank" onclick="toggleBlank(this)" data-answer="K">K</span> is the carrying capacity of a population.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Glass sponges are considered the oldest animals on Earth, with scientists estimating they can live for more than <span class="blank highlighted">10,000 years</span>, possibly <span class="blank highlighted">15,000 years</span> maximum.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The giant tortoise is known for its long lifespan, with some individuals living over <span class="blank highlighted">150 years</span>. They are found on <span class="blank" onclick="toggleBlank(this)" data-answer="Aldabra Atoll / Galápagos Islands">Aldabra Atoll / Galápagos Islands</span>.</div>
+    </div>
+  </div>
+
+  <div class="fitb-category">
+    <div class="fitb-category-title">🧠 Behavioral & Cognitive Ecology</div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Behavioral ecology is the study of an organism's behavior in its environment and its <span class="blank" onclick="toggleBlank(this)" data-answer="ecological and evolutionary">ecological and evolutionary</span> implications.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence"><span class="blank" onclick="toggleBlank(this)" data-answer="Ethology">Ethology</span> is the study of observable movement or behavior in animals.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Circadian rhythms are physical, mental, and behavioral changes that follow a <span class="blank highlighted">24-hour</span> cycle. <span class="blank" onclick="toggleBlank(this)" data-answer="Chronobiology">Chronobiology</span> is the study of circadian rhythms.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Young sunflowers display <span class="blank" onclick="toggleBlank(this)" data-answer="heliotropism">heliotropism</span>, moving their heads from east to west to follow the sun's path. This movement is driven by <span class="blank" onclick="toggleBlank(this)" data-answer="circadian rhythms">circadian rhythms</span> and differential stem growth.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Crows and parrots recognizing and remembering individual human faces is a premier example of <span class="blank" onclick="toggleBlank(this)" data-answer="cognitive ecology">cognitive ecology</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Social-ecological behaviors are notable in social insects, <span class="blank" onclick="toggleBlank(this)" data-answer="slime molds">slime molds</span>, social spiders, human society, and naked mole-rats where eusocialism has evolved.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The Socratea exorrhiza, or <span class="blank" onclick="toggleBlank(this)" data-answer="walking palm">"walking palm"</span>, found in South American rainforests, can "walk" across the forest floor using stilt roots that grow toward better sunlight.</div>
+    </div>
+  </div>
+
+  <div class="fitb-category">
+    <div class="fitb-category-title">🌡 Environmental Physics & Climate</div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The Earth was formed approximately <span class="blank highlighted">4.5 billion</span> years ago. Its atmosphere first transformed from hydrogen to mostly <span class="blank" onclick="toggleBlank(this)" data-answer="methane and ammonia">methane and ammonia</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The transition to an oxygen-dominant atmosphere (the <span class="blank" onclick="toggleBlank(this)" data-answer="Great Oxidation">Great Oxidation</span>) did not begin until approximately <span class="blank highlighted">2.4–2.3 billion</span> years ago.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The earliest organisms were likely anaerobic <span class="blank" onclick="toggleBlank(this)" data-answer="methanogen">methanogen</span> microbes that converted atmospheric hydrogen into methane.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Average temperature on Earth = <span class="blank highlighted">15°C</span>. Average temperature on Venus = <span class="blank highlighted">464°C</span> due to CO₂ atmosphere. Average temperature on Moon ranges from <span class="blank highlighted">−183°C</span> to <span class="blank highlighted">106°C</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Dinosaurs lived for <span class="blank highlighted">200 million</span> years and got eliminated <span class="blank highlighted">65 million</span> years ago due to a huge asteroid or comet impact.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Methane is more than <span class="blank highlighted">28 times</span> as potent as carbon dioxide at trapping heat in the atmosphere.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The IPCC (1996) estimated global methane emission rate from paddy fields at <span class="blank highlighted">60 Tg/yr</span>, with a range of 20 to 100 Tg/yr.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">A single cow produces between <span class="blank highlighted">154 to 264 pounds</span> of methane gas per year.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The Earth's oceans hold <span class="blank highlighted">40,000 Gt</span> of carbon; vegetation and soil hold <span class="blank highlighted">2070 Gt</span>; fossil fuel emissions are <span class="blank highlighted">6.3 Gt</span> carbon per year.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">In the Oligocene (~25–32 million years ago), grasses evolved <span class="blank" onclick="toggleBlank(this)" data-answer="C4 photosynthesis">C4 photosynthesis</span> in response to the drop in atmospheric CO₂ below <span class="blank highlighted">550 ppm</span>. Present CO₂ level = <span class="blank highlighted">421 ppm</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Atmospheric pressure on earth is about <span class="blank highlighted">14.7 pounds per square inch</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Diffusion of CO₂ and O₂ is approximately <span class="blank highlighted">10,000 times</span> slower in water than in air. Hypoxic environments have O₂ concentration below <span class="blank highlighted">2 mg/liter</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">CO₂ concentration in water is just <span class="blank highlighted">10 ppm</span> while in air it is <span class="blank highlighted">421 ppm</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Plants convert CO₂ into biomass and emit oxygen. By approximately <span class="blank highlighted">350 million years ago</span> (end of Devonian period), photosynthesis had brought atmospheric oxygen above <span class="blank highlighted">17%</span>, allowing combustion to occur.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Environmentally triggered germination of seeds (e.g., after fire) is called <span class="blank" onclick="toggleBlank(this)" data-answer="serotiny">serotiny</span>. Example: Pinus halepensis cannot germinate until seeds have lived through a fire.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Soil is the chief <span class="blank" onclick="toggleBlank(this)" data-answer="organizing centre">organizing centre</span> of most ecosystem functions.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Six major elements forming all biological macromolecules: <span class="blank" onclick="toggleBlank(this)" data-answer="H, C, N, O, S, P">H, C, N, O, S, P</span> (hydrogen, carbon, nitrogen, oxygen, sulfur, and phosphorus).</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The father of Physical Geography and Earlier Ecology was <span class="blank" onclick="toggleBlank(this)" data-answer="Alexander von Humboldt">Alexander von Humboldt</span> (1769–1859), who first recognized ecological gradients.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The only known animal to completely lack mitochondrial DNA and not require oxygen is <span class="blank" onclick="toggleBlank(this)" data-answer="Henneguya salminicola">Henneguya salminicola</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Wind running over a lake surface creates <span class="blank" onclick="toggleBlank(this)" data-answer="turbulence">turbulence</span>, mixing the water column and creating thermally layered zones. Dissolved oxygen levels in water <span class="blank" onclick="toggleBlank(this)" data-answer="increase">increase</span> due to turbulence.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The air expands and moisture condenses as winds increase in elevation — this is called <span class="blank" onclick="toggleBlank(this)" data-answer="orographic lift">orographic lift</span> and can cause precipitation.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Salt water plants (halophytes) have specialized adaptations to live in estuarine, brackish, or oceanic environments, including special organs for shedding salt and <span class="blank" onclick="toggleBlank(this)" data-answer="osmoregulating">osmoregulating</span> their internal NaCl concentrations.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Gravitational forces provide directional cues for plant and fungal growth, a phenomenon called <span class="blank" onclick="toggleBlank(this)" data-answer="gravitropism">gravitropism</span>.</div>
+    </div>
+  </div>
+
+  <div class="fitb-category">
+    <div class="fitb-category-title">🧬 Molecular Ecology</div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Molecular ecological research became more feasible with the development of the <span class="blank" onclick="toggleBlank(this)" data-answer="polymerase chain reaction (PCR)">polymerase chain reaction (PCR)</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The Indian gene pool is composed of four ancestral genetic components: <span class="blank" onclick="toggleBlank(this)" data-answer="ANI, ASI, ATB, and AAA">ANI (Ancestral North Indian), ASI (Ancestral South Indian), ATB (Ancestral Tibeto-Burman), and AAA (Ancestral Austro-Asiatic)</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The proportion of ANI ancestry in most Indian groups ranges from <span class="blank highlighted">39–71%</span>. ANI are genetically closer to Middle Easterners, Central Asians, and <span class="blank" onclick="toggleBlank(this)" data-answer="Europeans">Europeans</span>.</div>
+    </div>
+  </div>
+
+  <div class="fitb-category">
+    <div class="fitb-category-title">🦎 Complexity, Chaos & Disturbance</div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Complexity in ecology is of at least <span class="blank highlighted">six</span> distinct types: <span class="blank" onclick="toggleBlank(this)" data-answer="spatial, temporal, structural, process, behavioral, and geometric">spatial, temporal, structural, process, behavioral, and geometric</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Ecologists sort fluctuations into three broad categories: "regular" (fluctuating around a stable equilibrium), "random" (impossible to predict), and <span class="blank" onclick="toggleBlank(this)" data-answer='"chaotic"'>"chaotic"</span> (predictable in short term but not long term).</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The metaphor of the butterfly effect was first articulated by mathematician <span class="blank" onclick="toggleBlank(this)" data-answer="Edward Lorenz">Edward Lorenz</span>, a pioneer of <span class="blank" onclick="toggleBlank(this)" data-answer="chaos theory">chaos theory</span>.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">A disturbance is any process that removes <span class="blank" onclick="toggleBlank(this)" data-answer="biomass">biomass</span> from a community, such as fire, flood, drought, cyclones, or predation.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence"><span class="blank" onclick="toggleBlank(this)" data-answer="Technoecosystems">Technoecosystems</span> are a more recent addition to ecosystem ecology — affected by or primarily the result of human activity.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">Edward O. Wilson predicted in <span class="blank highlighted">1992</span> that the 21st century will be the era of <span class="blank" onclick="toggleBlank(this)" data-answer="restoration">restoration</span> in ecology.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">China reported its lowest birth rate since 1949 in 2025, with births plunging to <span class="blank highlighted">7.92 million</span>, a <span class="blank highlighted">17%</span> decline from 9.54 million in 2024.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">The Chelyabinsk, Russia meteorite event occurred on <span class="blank highlighted">February 15, 2013</span>. The shock wave injured around <span class="blank highlighted">1,500</span> people and shattered more than <span class="blank highlighted">3,600</span> windows.</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">China's "War on Sparrows" (Four Pests Campaign) targeted rats, flies, mosquitoes, and sparrows — resulting in a locust plague that killed <span class="blank highlighted">45 million</span> people (1958–1962).</div>
+    </div>
+    <div class="fitb-card">
+      <div class="fitb-sentence">In the Maldives, the Maldivian president held the world's first <span class="blank" onclick="toggleBlank(this)" data-answer="underwater cabinet meeting">underwater cabinet meeting</span> in October 2009 as a cry for help over rising sea levels. Maldives is expected to be entirely submerged by <span class="blank highlighted">2100</span>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TRUE / FALSE ===== -->
+<div class="section" id="tf">
+  <div class="tip">
+    <strong>⚡ Strategy for True/False</strong>
+    Watch for absolute words like "only," "always," "never," "all," and "first." The professor will flip keywords or swap numbers. Click T or F to see if you're right.
+  </div>
+  <div class="tf-score">
+    <div>
+      <div class="tf-score-num" id="tf-score">0 / 0</div>
+      <div class="tf-score-label">correct answers</div>
+      <div class="progress-bar" style="width:200px; margin-top:6px;"><div class="progress-fill" id="tf-progress" style="width:0%"></div></div>
+    </div>
+    <button class="btn orange" onclick="resetTF()">Reset All</button>
+  </div>
+
+  <div class="tf-category-title">🔬 Core Ecology</div>
+
+  <div class="tf-card" id="tf1">
+    <div class="tf-header"><span class="tf-num">1</span><div class="tf-text-wrap"><div class="tf-statement">Ecology was defined by Ernst Haeckel in 1866.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf1')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf1')">FALSE</button></div>
+    <div class="tf-explanation true-exp">TRUE — Ernst Haeckel defined ecology in 1866 as the relationship between living organisms and the environment.</div>
+  </div>
+  <div class="tf-card" id="tf2">
+    <div class="tf-header"><span class="tf-num">2</span><div class="tf-text-wrap"><div class="tf-statement">The individual level is the LAST level of ecological hierarchy.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf2')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf2')">FALSE</button></div>
+    <div class="tf-explanation false-exp">FALSE — The individual level is the FIRST level of ecological hierarchy.</div>
+  </div>
+  <div class="tf-card" id="tf3">
+    <div class="tf-header"><span class="tf-num">3</span><div class="tf-text-wrap"><div class="tf-statement">Synecology is the study of individual organisms or a single species and its environment.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf3')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf3')">FALSE</button></div>
+    <div class="tf-explanation false-exp">FALSE — AUTECOLOGY is the study of individual organisms. SYNECOLOGY is the study of communities.</div>
+  </div>
+  <div class="tf-card" id="tf4">
+    <div class="tf-header"><span class="tf-num">4</span><div class="tf-text-wrap"><div class="tf-statement">A panarchy exhibits linear behaviors.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf4')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf4')">FALSE</button></div>
+    <div class="tf-explanation false-exp">FALSE — A panarchy exhibits NON-LINEAR behaviors; effect and cause are disproportionate.</div>
+  </div>
+  <div class="tf-card" id="tf5">
+    <div class="tf-header"><span class="tf-num">5</span><div class="tf-text-wrap"><div class="tf-statement">The four stages of panarchy are: exploitation, conservation, release, and reorganization.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf5')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf5')">FALSE</button></div>
+    <div class="tf-explanation true-exp">TRUE — Exactly these four stages are identified by panarchy theory.</div>
+  </div>
+  <div class="tf-card" id="tf6">
+    <div class="tf-header"><span class="tf-num">6</span><div class="tf-text-wrap"><div class="tf-statement">The habitat plus the niche is called the ecotope.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf6')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf6')">FALSE</button></div>
+    <div class="tf-explanation true-exp">TRUE — The habitat plus the niche = ecotope.</div>
+  </div>
+  <div class="tf-card" id="tf7">
+    <div class="tf-header"><span class="tf-num">7</span><div class="tf-text-wrap"><div class="tf-statement">The competitive exclusion principle states that two species CAN coexist indefinitely on the same limiting resource.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf7')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf7')">FALSE</button></div>
+    <div class="tf-explanation false-exp">FALSE — The principle states two species CANNOT coexist indefinitely on the same limiting resource; one will always out-compete the other.</div>
+  </div>
+  <div class="tf-card" id="tf8">
+    <div class="tf-header"><span class="tf-num">8</span><div class="tf-text-wrap"><div class="tf-statement">Autogenic engineers change the environment by transforming materials from one physical state to another (e.g., beavers).</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf8')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf8')">FALSE</button></div>
+    <div class="tf-explanation false-exp">FALSE — That describes ALLOGENIC engineers. Autogenic engineers change the environment via their OWN physical structures (e.g., corals, trees).</div>
+  </div>
+  <div class="tf-card" id="tf9">
+    <div class="tf-header"><span class="tf-num">9</span><div class="tf-text-wrap"><div class="tf-statement">The concept of ecosystem engineering was introduced by Jones et al. in 1994.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf9')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf9')">FALSE</button></div>
+    <div class="tf-explanation true-exp">TRUE.</div>
+  </div>
+  <div class="tf-card" id="tf10">
+    <div class="tf-header"><span class="tf-num">10</span><div class="tf-text-wrap"><div class="tf-statement">Plants constitute more than 70% of all species recorded on Earth.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf10')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf10')">FALSE</button></div>
+    <div class="tf-explanation true-exp">TRUE — Plants constitute more than 70% of all species recorded; insects constitute more than 70% of all ANIMAL species.</div>
+  </div>
+  <div class="tf-card" id="tf11">
+    <div class="tf-header"><span class="tf-num">11</span><div class="tf-text-wrap"><div class="tf-statement">The metapopulation concept was defined by Levins in 1979.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf11')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf11')">FALSE</button></div>
+    <div class="tf-explanation false-exp">FALSE — It was defined by Levins in 1969, not 1979.</div>
+  </div>
+  <div class="tf-card" id="tf12">
+    <div class="tf-header"><span class="tf-num">12</span><div class="tf-text-wrap"><div class="tf-statement">Source patches are unproductive sites that only receive migrants.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf12')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf12')">FALSE</button></div>
+    <div class="tf-explanation false-exp">FALSE — SINK patches are unproductive sites that only receive migrants. SOURCE patches are productive and generate juveniles.</div>
+  </div>
+  <div class="tf-card" id="tf13">
+    <div class="tf-header"><span class="tf-num">13</span><div class="tf-text-wrap"><div class="tf-statement">K-selected species have high birth rates, low parental investment, and high rates of early mortality.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf13')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf13')">FALSE</button></div>
+    <div class="tf-explanation false-exp">FALSE — That describes R-selected species. K-selected species produce fewer offspring but each has a higher probability of survival to maturity (e.g., humans, elephants).</div>
+  </div>
+  <div class="tf-card" id="tf14">
+    <div class="tf-header"><span class="tf-num">14</span><div class="tf-text-wrap"><div class="tf-statement">Approximately 60% of all plants have a symbiotic relationship with Arbuscular mycorrhizal fungi.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf14')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf14')">FALSE</button></div>
+    <div class="tf-explanation true-exp">TRUE — Exactly 60%, forming an exchange network of phosphates, carbohydrates for mineral nutrients.</div>
+  </div>
+  <div class="tf-card" id="tf15">
+    <div class="tf-header"><span class="tf-num">15</span><div class="tf-text-wrap"><div class="tf-statement">Methane is more than 28 times as potent as CO₂ at trapping heat in the atmosphere.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf15')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf15')">FALSE</button></div>
+    <div class="tf-explanation true-exp">TRUE — Methane is more than 28 times as potent as carbon dioxide at trapping heat.</div>
+  </div>
+  <div class="tf-card" id="tf16">
+    <div class="tf-header"><span class="tf-num">16</span><div class="tf-text-wrap"><div class="tf-statement">The Great Oxidation (transition to oxygen-dominant atmosphere) began approximately 2.4–2.3 billion years ago.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf16')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf16')">FALSE</button></div>
+    <div class="tf-explanation true-exp">TRUE — Though photosynthetic processes started 0.3–1 billion years prior.</div>
+  </div>
+  <div class="tf-card" id="tf17">
+    <div class="tf-header"><span class="tf-num">17</span><div class="tf-text-wrap"><div class="tf-statement">Sea otters are NOT considered a keystone species.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf17')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf17')">FALSE</button></div>
+    <div class="tf-explanation false-exp">FALSE — Sea otters ARE the most commonly cited example of a keystone species (they limit sea urchin populations that feed on kelp).</div>
+  </div>
+  <div class="tf-card" id="tf18">
+    <div class="tf-header"><span class="tf-num">18</span><div class="tf-text-wrap"><div class="tf-statement">Dispersal involves seasonal departure and return of individuals from a habitat.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf18')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf18')">FALSE</button></div>
+    <div class="tf-explanation false-exp">FALSE — That describes MIGRATION. Dispersal is one-way PERMANENT movement from birth population into another population.</div>
+  </div>
+  <div class="tf-card" id="tf19">
+    <div class="tf-header"><span class="tf-num">19</span><div class="tf-text-wrap"><div class="tf-statement">Beavers actually live inside their dams.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf19')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf19')">FALSE</button></div>
+    <div class="tf-explanation false-exp">FALSE — Beavers do NOT live in the dams. They live in "lodges" — small protective island or dome structures in the pond created by the dam.</div>
+  </div>
+  <div class="tf-card" id="tf20">
+    <div class="tf-header"><span class="tf-num">20</span><div class="tf-text-wrap"><div class="tf-statement">The Logistic equation was developed by Pierre Verhulst based on Malthus's population principle.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf20')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf20')">FALSE</button></div>
+    <div class="tf-explanation true-exp">TRUE — Pierre Verhulst transformed Malthus's principle into the logistic equation.</div>
+  </div>
+  <div class="tf-card" id="tf21">
+    <div class="tf-header"><span class="tf-num">21</span><div class="tf-text-wrap"><div class="tf-statement">Diffusion of CO₂ and O₂ is approximately 10,000 times FASTER in water than in air.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf21')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf21')">FALSE</button></div>
+    <div class="tf-explanation false-exp">FALSE — Diffusion is approximately 10,000 times SLOWER in water than in air.</div>
+  </div>
+  <div class="tf-card" id="tf22">
+    <div class="tf-header"><span class="tf-num">22</span><div class="tf-text-wrap"><div class="tf-statement">The walking palm (Socratea exorrhiza) is found in African rainforests.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf22')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf22')">FALSE</button></div>
+    <div class="tf-explanation false-exp">FALSE — It is found in SOUTH AMERICAN rainforests.</div>
+  </div>
+  <div class="tf-card" id="tf23">
+    <div class="tf-header"><span class="tf-num">23</span><div class="tf-text-wrap"><div class="tf-statement">Edward O. Wilson predicted in 1992 that the 21st century will be the era of restoration in ecology.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf23')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf23')">FALSE</button></div>
+    <div class="tf-explanation true-exp">TRUE.</div>
+  </div>
+  <div class="tf-card" id="tf24">
+    <div class="tf-header"><span class="tf-num">24</span><div class="tf-text-wrap"><div class="tf-statement">Henneguya salminicola is the only known animal that completely lacks mitochondrial DNA.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf24')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf24')">FALSE</button></div>
+    <div class="tf-explanation true-exp">TRUE — It is the only known animal to completely lack mitochondrial DNA and not require oxygen.</div>
+  </div>
+  <div class="tf-card" id="tf25">
+    <div class="tf-header"><span class="tf-num">25</span><div class="tf-text-wrap"><div class="tf-statement">Dissolved oxygen levels in water DECREASE due to turbulence.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf25')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf25')">FALSE</button></div>
+    <div class="tf-explanation false-exp">FALSE — Dissolved oxygen levels INCREASE due to turbulence.</div>
+  </div>
+  <div class="tf-card" id="tf26">
+    <div class="tf-header"><span class="tf-num">26</span><div class="tf-text-wrap"><div class="tf-statement">Serotiny refers to the environmentally triggered germination of seeds after fire exposure.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf26')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf26')">FALSE</button></div>
+    <div class="tf-explanation true-exp">TRUE — e.g., Pinus halepensis cannot germinate until its seeds have lived through a fire.</div>
+  </div>
+  <div class="tf-card" id="tf27">
+    <div class="tf-header"><span class="tf-num">27</span><div class="tf-text-wrap"><div class="tf-statement">All tortoises are in fact turtles.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf27')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf27')">FALSE</button></div>
+    <div class="tf-explanation true-exp">TRUE — This is explicitly stated in the slides.</div>
+  </div>
+  <div class="tf-card" id="tf28">
+    <div class="tf-header"><span class="tf-num">28</span><div class="tf-text-wrap"><div class="tf-statement">Alexander von Humboldt is known as the Father of Physical Geography and Earlier Ecology.</div></div></div>
+    <div class="tf-options"><button class="tf-btn" onclick="checkTF(this,'true','tf28')">TRUE</button><button class="tf-btn" onclick="checkTF(this,'false','tf28')">FALSE</button></div>
+    <div class="tf-explanation true-exp">TRUE — Alexander von Humboldt (1769–1859) was among the first to recognize ecological gradients.</div>
+  </div>
+</div>
+
+<!-- ===== DEFINITIONS ===== -->
+<div class="section" id="defs">
+  <div class="tip">
+    <strong>⚡ 5 definitions at 1 mark each = 5 marks</strong>
+    These are the most likely definitions. Click each term to expand the full answer. Write your definitions using the keywords highlighted in green.
+  </div>
+  <div class="def-grid">
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Ecology <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">Ecology is the study of the <span class="def-keyword">interactions between living organisms</span>, including humans, animals and the overall environment. It tries to understand organisms at the individual, population, community, ecosystem, and biosphere level and how these live and deal with each other.<div class="def-category">TOPIC: Core Definitions</div></div>
+    </div>
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Ecosystem <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">Ecosystems involve <span class="def-keyword">biological, chemical, and physical feedback mechanisms</span>. They include different processes acting on both living (biotic) and non-living (abiotic) components of Earth. Ecosystems sustain life and perform life-supporting functions including biomass production, climate regulation, global biogeochemical cycles, water filtration, and soil formation. They are broadly categorized as <span class="def-keyword">terrestrial, freshwater, atmospheric, or marine</span>.<div class="def-category">TOPIC: Ecosystems</div></div>
+    </div>
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Ecological Niche <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">Niche is the set of <span class="def-keyword">biotic and abiotic conditions</span> in which a species is able to persist and maintain stable population sizes. It is subdivided into two: (1) The <span class="def-keyword">fundamental niche</span> — the set of environmental conditions under which a species can persist. (2) The <span class="def-keyword">realized niche</span> — the set of environmental PLUS ecological conditions under which a species persists.<div class="def-category">TOPIC: Niche</div></div>
+    </div>
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Panarchy <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">Panarchy is a concept that grew out of <span class="def-keyword">resilience and hierarchy theory</span>. It is a useful tool for understanding uncertainty and the unforeseen in an era of rapid environmental change. A panarchy is a set of nested (across time and space) <span class="def-keyword">adaptive cycles</span> that emphasizes the inevitable and inherent dynamics of living systems: growth, conservation, release, and reorganization. It exhibits <span class="def-keyword">non-linear</span> behaviors — effect and cause are disproportionate.<div class="def-category">TOPIC: Panarchy</div></div>
+    </div>
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Resilience (ecological) <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">A thing is said to be resilient if it has the <span class="def-keyword">capacity to withstand or recover from disturbance</span>. In an ecological sense, resilience describes the <span class="def-keyword">persistence of ecosystem structure and function</span> in the face of changing conditions.<div class="def-category">TOPIC: Resilience</div></div>
+    </div>
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Biodiversity <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">Biodiversity includes the <span class="def-keyword">diversity of life from genes to ecosystems</span> and covers every level of biological organization. It includes <span class="def-keyword">species diversity, ecosystem diversity, and genetic diversity</span>. Scientists are interested in how this diversity affects the complex ecological processes operating at and among these respective levels.<div class="def-category">TOPIC: Biodiversity</div></div>
+    </div>
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Keystone Species <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">A keystone species is a species that is connected to a <span class="def-keyword">disproportionately large number of other species</span> in the food web. It has <span class="def-keyword">lower levels of biomass</span> in the trophic pyramid relative to the importance of its role. The loss of a keystone species results in dramatic <span class="def-keyword">trophic cascades</span> and can cause extinction of other species. Example: sea otters limit sea urchin populations that feed on kelp.<div class="def-category">TOPIC: Trophic Dynamics</div></div>
+    </div>
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Metapopulation <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">A metapopulation is a <span class="def-keyword">"population of populations"</span> distributed in discrete habitat patches that are linked by occasional dispersal. It is a group of spatially separated populations of the same species that interact at some level. The concept was defined by <span class="def-keyword">Levins in 1969</span>. The ecology of metapopulations is a dynamic process of <span class="def-keyword">extinction and colonization</span>.<div class="def-category">TOPIC: Population Ecology</div></div>
+    </div>
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Niche Construction <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">Niche construction is the evolutionary and ecological process where <span class="def-keyword">organisms modify their local environments</span>, creating new selection pressures that influence their own evolution and that of other species. It is a fundamental, nearly universal phenomenon, ranging from animals building nests and dams to plants altering soil nutrients and microbes changing atmospheric conditions. It highlights a <span class="def-keyword">two-way interaction</span> between organisms and their environment.<div class="def-category">TOPIC: Niche Construction</div></div>
+    </div>
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Ecosystem Engineering <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">Ecosystem engineering refers to the process where organisms directly or indirectly <span class="def-keyword">modulate the availability of resources</span> to other species by causing physical state changes in biotic or abiotic materials. These organisms create, modify, maintain, or destroy habitats, significantly affecting community structure and biodiversity. Key examples: beavers damming streams, corals building reefs, earthworms altering soil. Two types: <span class="def-keyword">autogenic</span> (via own structure) and <span class="def-keyword">allogenic</span> (transforming materials).<div class="def-category">TOPIC: Ecosystem Engineering</div></div>
+    </div>
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Trophic Cascade <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">Trophic cascades are ecological phenomena that occur when there is a change in the population of a particular species, which then causes a <span class="def-keyword">ripple effect throughout the food chain</span>, impacting other species in either a positive or negative manner. Classic example: removal of wolves from Yellowstone caused deer populations to explode and over-graze vegetation.<div class="def-category">TOPIC: Trophic Dynamics</div></div>
+    </div>
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Biome <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">Biomes are the <span class="def-keyword">largest geographic biotic units</span> — major communities of plants and animals with similar life forms and environmental conditions. Types include: aquatic, grassland, forest, desert, <span class="def-keyword">tundra</span> (treeless), and <span class="def-keyword">taiga</span> (coniferous forest). Biomes are larger units of organization that categorize regions of Earth's ecosystems mainly according to the <span class="def-keyword">structure and composition of vegetation</span>.<div class="def-category">TOPIC: Biomes</div></div>
+    </div>
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Ecotope <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">The <span class="def-keyword">habitat plus the niche</span> is called the ecotope. When similarly adapted species overlap geographically, closer inspection reveals subtle ecological differences in their habitat or dietary requirements.<div class="def-category">TOPIC: Habitat & Niche</div></div>
+    </div>
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Biogeography <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">Biogeography is an amalgamation of <span class="def-keyword">biology and geography</span> — the comparative study of the geographic distribution of organisms and the corresponding evolution of their traits in space and time. Biogeographical patterns result from ecological processes that influence range distributions, such as <span class="def-keyword">migration and dispersal</span>, and from historical processes that split populations or species into different areas.<div class="def-category">TOPIC: Biogeography</div></div>
+    </div>
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Ontogenetic Niche Shift (ONS) <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">Ontogenetic Niche Shift (ONS) is an ecological phenomenon where an organism (usually an animal) <span class="def-keyword">changes its diet or habitat during its ontogeny (development)</span>. During this shift, the ecological niche of an individual changes its breadth and position. Common example: fish change habitat over their lifespan as they grow in size; habitats for spawning and juvenile growth often differ from habitats used by adults.<div class="def-category">TOPIC: Habitat & Niche</div></div>
+    </div>
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Behavioural Ecology <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">Behavioral ecology is the study of an organism's <span class="def-keyword">behavior in its environment</span> and its ecological and evolutionary implications. Ethology is the study of observable movement or behavior in animals. All organisms can exhibit behaviors — even plants express complex behavior including <span class="def-keyword">memory and communication</span>. Circadian rhythms are physical, mental, and behavioral changes that follow a <span class="def-keyword">24-hour cycle</span>; Chronobiology is the study of circadian rhythms.<div class="def-category">TOPIC: Behavioural Ecology</div></div>
+    </div>
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Community Ecology <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">Community ecology is the study of the <span class="def-keyword">interactions among a collection of species that inhabit the same geographic area</span>. Community ecologists study the patterns and processes for two or more interacting species. Research might measure species diversity in grasslands in relation to soil fertility, or analyze predator-prey dynamics, competition among similar plant species, or mutualistic interactions between crabs and corals.<div class="def-category">TOPIC: Types of Ecology</div></div>
+    </div>
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Serotiny <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">Serotiny is the <span class="def-keyword">environmentally triggered germination of seeds</span> following fire or exposure to fire-related compounds. For example, Pinus halepensis cannot germinate until after its seeds have lived through a fire or been exposed to certain compounds from smoke. Fire plays a major role in the persistence and resilience of ecosystems.<div class="def-category">TOPIC: Fire Ecology</div></div>
+    </div>
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Mutualism <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">Mutualism refers to relationships between species that are <span class="def-keyword">mutually or reciprocally beneficial</span>. Examples include fungus-growing ants (agricultural symbiosis), bacteria in insect guts, the fig wasp and yucca moth pollination complex, lichens (fungi + photosynthetic algae), and corals with photosynthetic algae.<div class="def-category">TOPIC: Coevolution</div></div>
+    </div>
+
+    <div class="def-card" onclick="toggleDef(this)">
+      <div class="def-term">Holism (in ecology) <span class="def-toggle">[click to expand]</span></div>
+      <div class="def-body">Holism means the overall patterns of a whole functional system, such as an ecosystem, <span class="def-keyword">cannot be predicted or understood by a simple summation of the parts</span>. New properties emerge because the components interact. For example, mutualism, commensalism, and antagonism — their combined effect is unpredictable by summation.<div class="def-category">TOPIC: Complexity</div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== FORMULAS & KEY NUMBERS ===== -->
+<div class="section" id="formulas">
+  <div class="tip">
+    <strong>⚡ Numbers & Formulas the professor WILL use for fill-in-blanks</strong>
+    These are the most trap-worthy facts. The professor loves swapping a number or a variable name.
+  </div>
+
+  <div class="formula-card">
+    <div class="formula-title">📐 Exponential Growth Rate Formula</div>
+    <div class="formula-eq">r = ln(pn / p0) / n</div>
+    <div class="formula-vars">
+      r = exponential rate of growth &nbsp;|&nbsp; ln = natural logarithm &nbsp;|&nbsp; pn = end period population &nbsp;|&nbsp; p0 = beginning period population &nbsp;|&nbsp; n = number of years
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <div class="formula-title">📐 Rate of Population Change (Island Model)</div>
+    <div class="formula-eq">dN(t)/dt = bN(t) – dN(t) = (b–d)N(t) = rN(t)</div>
+    <div class="formula-vars">
+      N = total individuals &nbsp;|&nbsp; b = per capita birth rate &nbsp;|&nbsp; d = per capita death rate &nbsp;|&nbsp; r = per capita rate of population change
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <div class="formula-title">📐 Logistic Equation (Pierre Verhulst)</div>
+    <div class="formula-eq">dN(t)/dt = rN(t) – αN(t)²  ≡  rN(t)(K–N(t))/K</div>
+    <div class="formula-vars">
+      r = intrinsic rate of growth (max per-capita rate of change) &nbsp;|&nbsp; α = crowding coefficient &nbsp;|&nbsp; K = carrying capacity &nbsp;|&nbsp; Equilibrium when dN(t)/dt = 0
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <div class="formula-title">⚗️ Photosynthesis Reactions</div>
+    <div class="formula-eq">Light: 2H₂O + 2NADP⁺ + 3ADP + 3Pi → O₂ + 2NADPH + 3ATP</div>
+    <div class="formula-eq">Dark: 3CO₂ + 6NADPH + 5H₂O + 9ATP → G3P + 2H⁺ + 6NADP⁺ + 9ADP + 8Pi</div>
+    <div class="formula-vars">NADPH = Nicotinamide Adenine Dinucleotide Phosphate</div>
+  </div>
+
+  <div class="formula-card">
+    <div class="formula-title">⚗️ Early Atmosphere Reactions</div>
+    <div class="formula-eq">Methanogen: 4H₂ + CO₂ → CH₄ + 2H₂O</div>
+    <div class="formula-eq">Anoxygenic photosynthesis: 2H₂S + CO₂ + hv → CH₂O + H₂O + 2S</div>
+    <div class="formula-eq">Algae CO₂ equilibrium: CO₂ + H₂O ⟷ HCO₃⁻ + H⁺</div>
+  </div>
+
+  <div class="formula-card">
+    <div class="formula-title">🔢 Critical Numbers to Memorize</div>
+    <div class="formula-vars">
+      <span>Earth age:</span> ~4.5 billion years ago<br>
+      <span>Great Oxidation:</span> 2.4–2.3 billion years ago<br>
+      <span>Dinosaurs extinct:</span> 65 million years ago (200M years of existence)<br>
+      <span>Devonian period fire threshold:</span> 350 million years ago / 17% O₂<br>
+      <span>Human climate niche:</span> 11–15°C average temperature<br>
+      <span>CO₂ in water:</span> 10 ppm &nbsp;|&nbsp; CO₂ in air: 421 ppm (2022)<br>
+      <span>Atmospheric pressure:</span> 14.7 psi<br>
+      <span>Hypoxic threshold:</span> O₂ &lt; 2 mg/liter<br>
+      <span>Diffusion speed water vs air:</span> 10,000 times slower in water<br>
+      <span>Methane potency:</span> 28× more than CO₂<br>
+      <span>Paddy field methane:</span> 60 Tg/yr (IPCC 1996)<br>
+      <span>Cow methane:</span> 154–264 pounds/year<br>
+      <span>Earth's carbon — oceans:</span> 40,000 Gt &nbsp;|&nbsp; vegetation+soil: 2070 Gt &nbsp;|&nbsp; fossil fuels/yr: 6.3 Gt<br>
+      <span>C4 photosynthesis evolved when CO₂ dropped below:</span> 550 ppm (Oligocene, 25–32 Ma)<br>
+      <span>Gut microbiome weight:</span> 1–2 kg<br>
+      <span>Arbuscular mycorrhizal symbiosis:</span> 60% of all plants<br>
+      <span>Vulture decline due to diclofenac:</span> up to 95%<br>
+      <span>Metapopulations defined by Levins:</span> 1969<br>
+      <span>Ecosystem engineering by Jones et al.:</span> 1994<br>
+      <span>Total species estimated by Robert May:</span> ~7 million<br>
+      <span>Plants % of all species:</span> >70% &nbsp;|&nbsp; Animals: &lt;22% &nbsp;|&nbsp; Insects % of animal species: >70%<br>
+      <span>Glass sponge lifespan:</span> 10,000–15,000 years<br>
+      <span>Giant tortoise lifespan:</span> over 150 years<br>
+      <span>Penguin egg incubation:</span> 65–75 days (males fast, protect egg on feet)<br>
+      <span>Hornbill breeding process:</span> 4-month, mother seals in tree cavity<br>
+      <span>China sparrow war deaths:</span> 45 million people (1958–1962)<br>
+      <span>Chelyabinsk event:</span> Feb 15, 2013 | 1,500 injured | 3,600 windows shattered<br>
+      <span>Maldives above sea level:</span> 1 meter (expected submerged by 2100)<br>
+      <span>China birth rate 2025:</span> 7.92 million (17% decline from 9.54M in 2024)<br>
+      <span>People outside climate niche:</span> 600 million<br>
+      <span>Edward O. Wilson's prediction year:</span> 1992<br>
+      <span>ANI ancestry range in India:</span> 39–71%<br>
+      <span>r/K model: r =</span> intrinsic rate | K = carrying capacity<br>
+      <span>4 stages of panarchy (r, K, Ω, α):</span> exploitation, conservation, release, reorganization
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <div class="formula-title">🦁 Key Species & Examples</div>
+    <div class="formula-vars">
+      <span>Keystone species examples:</span> Sea otter, wolf, tiger, elephant, snake, lions (Africa), sloth bear (India)<br>
+      <span>Sea otter → limits:</span> sea urchins → protects: kelp<br>
+      <span>Hunting sea otters caused extinction of:</span> Steller's sea cow (Hydrodamalis gigas)<br>
+      <span>Elephants in Africa keystone role:</span> Dig for water during dry season for all animals<br>
+      <span>Autogenic engineer examples:</span> Corals (reefs), trees (shade)<br>
+      <span>Allogenic engineer examples:</span> Beavers (dams), earthworms (soil)<br>
+      <span>Walking palm:</span> Socratea exorrhiza — South American rainforests<br>
+      <span>Anoxic animal:</span> Henneguya salminicola (no mitochondrial DNA)<br>
+      <span>Mutualism examples:</span> Fungus-growing ants, lichens (fungi+algae), fig wasp-yucca moth, corals+algae<br>
+      <span>RuBisCO full name:</span> Ribulose-1,5-bisphosphate carboxylase/oxygenase<br>
+      <span>Pyrenoid:</span> chloroplast microcompartment where RuBisCO is located<br>
+      <span>Halophytes:</span> salt water plants with osmoregulation adaptations<br>
+      <span>C4 photosynthesis plants:</span> Switch grass, Sugarcane, Sweet sorghum, Maize<br>
+      <span>Allelopathy plants:</span> Banyan, Eucalyptus, Black walnut<br>
+      <span>Heliotropism:</span> young sunflowers tracking the sun (not mature/blooming flowers)
+    </div>
+  </div>
+</div>
+
+<script>
+  let tfCorrect = 0, tfTotal = 0;
+
+  function switchTab(id) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function toggleBlank(el) {
+    el.classList.toggle('revealed');
+  }
+
+  function revealAll() {
+    document.querySelectorAll('.blank').forEach(b => b.classList.add('revealed'));
+  }
+
+  function hideAll() {
+    document.querySelectorAll('.blank').forEach(b => b.classList.remove('revealed'));
+  }
+
+  function checkTF(btn, answer, cardId) {
+    const card = document.getElementById(cardId);
+    if (card.dataset.answered) return;
+    card.dataset.answered = 'true';
+    tfTotal++;
+
+    const explanation = card.querySelector('.tf-explanation');
+    const isTrue = explanation.classList.contains('true-exp');
+    const correctAnswer = isTrue ? 'true' : 'false';
+
+    if (answer === correctAnswer) {
+      btn.classList.add('correct');
+      tfCorrect++;
+    } else {
+      btn.classList.add('wrong');
+      const otherBtn = btn.parentElement.querySelector('.tf-btn:not(.wrong)');
+      if (otherBtn) otherBtn.classList.add('correct');
+    }
+
+    explanation.classList.add('show');
+    document.getElementById('tf-score').textContent = tfCorrect + ' / ' + tfTotal;
+    const pct = tfTotal > 0 ? (tfCorrect / tfTotal * 100) : 0;
+    document.getElementById('tf-progress').style.width = pct + '%';
+  }
+
+  function resetTF() {
+    tfCorrect = 0; tfTotal = 0;
+    document.querySelectorAll('.tf-card').forEach(c => {
+      delete c.dataset.answered;
+      c.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('correct','wrong'));
+      c.querySelectorAll('.tf-explanation').forEach(e => e.classList.remove('show'));
+    });
+    document.getElementById('tf-score').textContent = '0 / 0';
+    document.getElementById('tf-progress').style.width = '0%';
+  }
+
+  function toggleDef(card) {
+    const body = card.querySelector('.def-body');
+    const toggle = card.querySelector('.def-toggle');
+    body.classList.toggle('show');
+    toggle.textContent = body.classList.contains('show') ? '[click to collapse]' : '[click to expand]';
+  }
+</script>
+</body>
+</html>
