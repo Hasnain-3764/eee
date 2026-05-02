@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EHSS Exam Study Guide – Complete Notes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Source+Code+Pro:wght@400;600&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card2: #1e2236;
+    --border: #2a2f45;
+    --accent: #4f9eff;
+    --accent2: #7c3aed;
+    --green: #22c55e;
+    --yellow: #f59e0b;
+    --red: #ef4444;
+    --text: #e2e8f0;
+    --muted: #8892a4;
+    --highlight: rgba(79,158,255,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  header {
+    background: linear-gradient(135deg, #0f1117 0%, #1a1d27 50%, #0f1117 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 2.5rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+
+  header h1 {
+    font-family: 'Merriweather', serif;
+    font-size: 1.4rem;
+    color: var(--accent);
+    letter-spacing: -0.3px;
+  }
+
+  header p { color: var(--muted); font-size: 12px; margin-top: 4px; }
+
+  .marks-bar {
+    display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap;
+  }
+  .mark-chip {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .mark-chip span { color: var(--accent); font-weight: 600; }
+
+  nav {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 0.6rem 2.5rem;
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+  }
+  nav a:hover { color: var(--accent); border-color: var(--border); background: var(--card2); }
+
+  main { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  section { margin-bottom: 3rem; }
+
+  h2 {
+    font-family: 'Merriweather', serif;
+    font-size: 1.15rem;
+    color: var(--accent);
+    border-left: 3px solid var(--accent);
+    padding-left: 12px;
+    margin-bottom: 1.2rem;
+    scroll-margin-top: 120px;
+  }
+
+  h3 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--yellow);
+    margin: 1.5rem 0 0.8rem;
+  }
+
+  /* DEFINITION CARDS */
+  .def-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 700px) { .def-grid { grid-template-columns: 1fr; } }
+
+  .def-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    position: relative;
+  }
+  .def-card .term {
+    font-weight: 600;
+    color: var(--green);
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  .def-card .meaning {
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .def-card .tag {
+    position: absolute;
+    top: 10px; right: 10px;
+    font-size: 10px;
+    color: var(--muted);
+    background: var(--card2);
+    padding: 2px 7px;
+    border-radius: 10px;
+  }
+
+  /* FILL BLANKS */
+  .fb-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .fb-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 11px 15px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .fb-item .blank {
+    background: var(--highlight);
+    color: var(--accent);
+    font-weight: 700;
+    font-family: 'Source Code Pro', monospace;
+    padding: 1px 8px;
+    border-radius: 4px;
+    border-bottom: 2px solid var(--accent);
+    font-size: 12px;
+  }
+  .fb-item .source { font-size: 10px; color: var(--muted); margin-top: 4px; }
+
+  /* TRUE FALSE */
+  .tf-list { display: flex; flex-direction: column; gap: 8px; }
+  .tf-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 11px 15px;
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 13px;
+  }
+  .tf-badge {
+    flex-shrink: 0;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 5px;
+    letter-spacing: 0.5px;
+    margin-top: 1px;
+  }
+  .tf-badge.T { background: rgba(34,197,94,0.2); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+  .tf-badge.F { background: rgba(239,68,68,0.2); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+
+  /* NUMBERS TABLE */
+  .num-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: var(--card);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .num-table th {
+    background: var(--card2);
+    color: var(--accent);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+  }
+  .num-table td {
+    padding: 9px 14px;
+    border-top: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+  .num-table tr:hover td { background: var(--highlight); }
+  .num { color: var(--yellow); font-weight: 700; font-family: 'Source Code Pro', monospace; }
+
+  .tip-box {
+    background: rgba(124,58,237,0.1);
+    border: 1px solid rgba(124,58,237,0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 12.5px;
+    color: #c4b5fd;
+    margin: 1rem 0;
+  }
+  .tip-box strong { color: #a78bfa; }
+
+  .warn-box {
+    background: rgba(245,158,11,0.1);
+    border: 1px solid rgba(245,158,11,0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 12.5px;
+    color: #fde68a;
+    margin: 1rem 0;
+  }
+  .warn-box strong { color: var(--yellow); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📚 Environmental Studies — Exam Master Guide</h1>
+  <p>Prof. D.K. Sharma | EHSS, Carbon Footprints, Biodiversity & Environmental Challenges</p>
+  <div class="marks-bar">
+    <div class="mark-chip">Total: <span>25 marks</span></div>
+    <div class="mark-chip">Fill-in-the-Blank: <span>20 × 0.5 = 10 marks</span></div>
+    <div class="mark-chip">True/False: <span>20 × 0.5 = 10 marks</span></div>
+    <div class="mark-chip">Definitions: <span>5 × 1 = 5 marks</span></div>
+  </div>
+</header>
+
+<nav>
+  <a href="#defs">📖 Definitions</a>
+  <a href="#fillups">✏️ Fill-in-the-Blank Bank</a>
+  <a href="#tf">✅ True/False Bank</a>
+  <a href="#numbers">🔢 Key Numbers</a>
+  <a href="#laws">⚖️ Laws & Acts</a>
+  <a href="#species">🦁 Species & Hotspots</a>
+  <a href="#carbon">🌡️ Carbon & Climate</a>
+  <a href="#env">🌍 Env. Problems</a>
+</nav>
+
+<main>
+
+<!-- ============ DEFINITIONS ============ -->
+<section id="defs">
+<h2>📖 Definitions — All Likely Exam Terms</h2>
+<div class="tip-box"><strong>Exam tip:</strong> Prof may ask definition of any term from anywhere in the slides. These are the most quotable, precise definitions from the lectures.</div>
+
+<div class="def-grid">
+
+  <div class="def-card">
+    <div class="tag">Biodiversity PPT</div>
+    <div class="term">Biodiversity</div>
+    <div class="meaning">The variety and differences among living organisms from all sources, including terrestrial, marine, and other aquatic ecosystems and the ecological complexes of which they are a part. Biologists define it as the "totality of genes, species, and ecosystems of a region." It is virtually synonymous with "Life on Earth."</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Biodiversity PPT</div>
+    <div class="term">Alpha Diversity</div>
+    <div class="meaning">Within community diversity. Refers to the diversity of organisms sharing the same Community/Habitat.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Biodiversity PPT</div>
+    <div class="term">Beta Diversity</div>
+    <div class="meaning">Between community diversity. Refers to the diversity of organisms sharing two habitats.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Biodiversity PPT</div>
+    <div class="term">Gamma Diversity</div>
+    <div class="meaning">Diversity of the habitat over the total landscape or geographical area.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Biodiversity PPT</div>
+    <div class="term">Species Diversity</div>
+    <div class="meaning">An index that incorporates the number of species in an area and their relative abundance (Simpson Index). More useful than species richness (Shannon Wiener Index).</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Biodiversity PPT</div>
+    <div class="term">Genetic Diversity</div>
+    <div class="meaning">A level of biodiversity that refers to the total number of genetic characteristics in the genetic makeup of a species — i.e., variation within species (e.g., different breeds of dogs, rose flowers).</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Biodiversity PPT</div>
+    <div class="term">Biodiversity Hotspot</div>
+    <div class="meaning">A biogeography region with a significant reservoir of biodiversity that is threatened with destruction. An area is a hotspot if it contains at least 1,500 species of vascular plants found nowhere else (endemic) AND has lost at least 70% of its original native vegetation.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Biodiversity PPT</div>
+    <div class="term">Threatened Species</div>
+    <div class="meaning">Any species (animals, plants, fungi, etc.) that is vulnerable to endangerment in the near future. Example: Bengal tigers.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Biodiversity PPT</div>
+    <div class="term">Extinct Species</div>
+    <div class="meaning">Species not found after searches of known or likely areas where they may occur. May be locally, regionally, or globally extinct. Examples: Quagga, Dodo.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Biodiversity PPT</div>
+    <div class="term">Endemic Species</div>
+    <div class="meaning">Species found only in some particular areas, usually isolated by natural or geographical barriers. Example: Asiatic lion.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Biodiversity PPT</div>
+    <div class="term">Endangered Species</div>
+    <div class="meaning">Species in danger of extinction. Survival is difficult if negative factors causing decline continue to operate. Example: Indian gharial. (IUCN: in imminent danger of extinction and whose survival is unlikely if decline factors continue.)</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Biodiversity PPT</div>
+    <div class="term">Conservation</div>
+    <div class="meaning">The management of human use of the biosphere so that it may yield the greatest sustainable benefit to the present generation while maintaining its potential to meet the needs and aspirations of future generations.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Biodiversity PPT</div>
+    <div class="term">In-situ Conservation</div>
+    <div class="meaning">Conservation of species in its natural ecosystem or even in man-made ecosystems. Emphasizes protection of total ecosystems through a network of protected areas (Biosphere reserves, National Parks, Wildlife Sanctuaries).</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Biodiversity PPT</div>
+    <div class="term">Ex-situ Conservation</div>
+    <div class="meaning">Conservation of components of biological diversity (sample of genetic diversity, particularly of endangered species) outside their natural habitats. E.g., Zoos, Botanical Gardens, Aquaria, DNA banks, Seed banks, Gene banks.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Biodiversity PPT</div>
+    <div class="term">Protected Area</div>
+    <div class="meaning">An area of land and/or sea specially dedicated to the protection and maintenance of biological diversity and managed through legal and effective means.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Biodiversity PPT</div>
+    <div class="term">Biosystems Engineering</div>
+    <div class="meaning">An integrated science that combines engineering design and analysis with biological sciences to address agricultural, environmental, food safety, and ecological concerns across the production-processing system from farm and production to consumers.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Biodiversity PPT</div>
+    <div class="term">Biological Diversity Act, 2002</div>
+    <div class="meaning">Indian legislation aimed at conserving biological resources, promoting sustainable use, and ensuring fair sharing of benefits. Enacted to meet India's obligations under the UN CBD. Mandates NBA, SBBs, and BMCs. (Notably updated in 2023.)</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Env. Challenges PPT</div>
+    <div class="term">Greenwashing</div>
+    <div class="meaning">The deceptive marketing tactic of portraying a company, product, or service as more environmentally friendly or sustainable than it actually is. Capitalizes on consumer demand for green products through vague claims, misleading labeling, or hidden tradeoffs.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Env. Challenges PPT</div>
+    <div class="term">Bioinvasion</div>
+    <div class="meaning">The intentional or accidental introduction of organisms in regions where they are not native. Example: Red fire ants introduced from Paraguay/Brazil to Alabama (USA) in 1957 via lumber shipments.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Env. Challenges PPT</div>
+    <div class="term">Global Warming</div>
+    <div class="meaning">The increasing average global air temperature, caused mainly by the accumulation of greenhouse gases (primarily CO₂, methane, nitrous oxide) in the atmosphere that act like the glass in a greenhouse, holding heat from the sun close to the earth.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Env. Challenges PPT</div>
+    <div class="term">Environmental Kuznets Curve (EKC)</div>
+    <div class="meaning">The concept that the relationship between economic development and environmental pollution is curvilinear (inverted U-shape): environmental degradation increases during early economic development, peaks at a threshold, then declines as the country becomes wealthier.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Env. Challenges PPT</div>
+    <div class="term">Multiple Chemical Sensitivity (MCS)</div>
+    <div class="meaning">Also known as environmental illness. A condition where individuals experience adverse reactions when exposed to low levels of chemicals found in everyday substances (exhaust, paint, fragrances, synthetic building materials, petrochemical-based products).</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Env. Challenges PPT</div>
+    <div class="term">Planned Obsolescence</div>
+    <div class="meaning">Manufacturers design products intended to become obsolete so consumers continually discard used products and buy replacements. Industry profits at the expense of the environment (conflict perspective).</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Env. Challenges PPT</div>
+    <div class="term">Environmental Justice / Environmental Racism</div>
+    <div class="meaning">The tendency for marginalized populations and communities to disproportionately experience adversity due to environmental problems (e.g., vehicular pollution, industrial waste near poor communities).</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Env. Challenges PPT</div>
+    <div class="term">Desertification</div>
+    <div class="meaning">Land degradation process. Approximately 29.3–30% of India's total geographical area (~96–97 million hectares) is undergoing land degradation or desertification; primary driver is water erosion (80%), followed by vegetation degradation and wind erosion.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Carbon PPT</div>
+    <div class="term">Carbon Footprint</div>
+    <div class="meaning">The amount of carbon dioxide (CO₂) emissions associated with an individual, event, organization, service, or product. Reducing carbon footprints can be achieved by replacing coal with gas/oil, using solar/wind energy, hydrogen fuel cells, or cleaner electric energy.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Carbon PPT</div>
+    <div class="term">Quad (Unit of Energy)</div>
+    <div class="meaning">A unit of energy equal to 10¹⁵ (one short-scale quadrillion) BTU, or 1.055×10¹⁸ joules (1.055 exajoules or EJ) in SI units. Reference: Gilbert M. Masters, "Introduction to Environmental Engineering and Science," Prentice Hall, 1991.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Biodiversity PPT</div>
+    <div class="term">Entoremediation</div>
+    <div class="meaning">Environmentally sustainable, cost-effective natural process where insect larvae (mealworms, wax worms) consume and biodegrade plastics like polystyrene and polyethylene using microbes in their guts, converting them into organic, non-toxic compost.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Env. Challenges PPT</div>
+    <div class="term">Acid Rain</div>
+    <div class="meaning">Formed when air pollutants (sulfur dioxide, nitrogen oxide) mix with precipitation. Polluted rain, snow, and fog contaminate crops, forests, lakes, rivers, and oceans. Example: All fish have died in a third of the lakes in New York's Adirondack Mountains due to acid rain.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Biodiversity PPT</div>
+    <div class="term">National Biodiversity Authority (NBA)</div>
+    <div class="meaning">A statutory, autonomous body established in 2003 under the Biological Diversity Act, 2002 to implement the act's provisions, focusing on conservation, sustainable use, and fair benefit-sharing. Headquartered in Chennai.</div>
+  </div>
+
+  <div class="def-card">
+    <div class="tag">Env. Challenges PPT</div>
+    <div class="term">EIA (Environmental Impact Assessment)</div>
+    <div class="meaning">Mandatory under the Environmental Protection Act, 1986 for 29 categories of developmental activities involving investments of Rs. 50 crores and above. Governing instrument: EIA Notification, 2006, for green clearance for industry establishment or expansion.</div>
+  </div>
+
+</div>
+</section>
+
+<!-- ============ FILL IN THE BLANK ============ -->
+<section id="fillups">
+<h2>✏️ Fill-in-the-Blank Bank (100+ statements)</h2>
+<div class="warn-box"><strong>Warning:</strong> The professor picks the most random statements. Every single number, species name, place name, and unique fact below is a potential blank. Study each one carefully.</div>
+
+<h3>🌿 Biodiversity — Core Facts</h3>
+<ul class="fb-list">
+  <li class="fb-item">Biodiversity found on Earth is the product of nearly <span class="blank">3.5 billion years</span> of evolution.</li>
+  <li class="fb-item">Biologists define biodiversity as the totality of <span class="blank">genes, species, and ecosystems</span> of a region.</li>
+  <li class="fb-item">Species diversity is measured using the <span class="blank">Simpson Index</span> (incorporates number and relative abundance).</li>
+  <li class="fb-item">Species richness is measured using the <span class="blank">Shannon Wiener Index</span>.</li>
+  <li class="fb-item">About <span class="blank">80,000</span> edible plants exist, and about <span class="blank">90%</span> of present-day food crops have been domesticated from wild.</li>
+  <li class="fb-item">About <span class="blank">75%</span> of the world's population depends on plants and plant extracts for drugs and medicines.</li>
+  <li class="fb-item">India's position in plant diversity is <span class="blank">10th in the world and 4th in Asia</span>.</li>
+  <li class="fb-item">About <span class="blank">2.1 million</span> species have been identified till date.</li>
+  <li class="fb-item">A biodiversity hotspot must contain at least <span class="blank">1,500</span> species of vascular plants found nowhere else (endemic) and have lost at least <span class="blank">70%</span> of its original native vegetation.</li>
+  <li class="fb-item">An area is also designated as a hotspot when it contains at least <span class="blank">0.5%</span> of plant species as endemic.</li>
+  <li class="fb-item">There are <span class="blank">25</span> such hotspots of biodiversity on a global level, out of which <span class="blank">two</span> are present in India.</li>
+  <li class="fb-item">The two biodiversity hotspots in India are <span class="blank">Indo-Burma (Eastern Himalayas)</span> and <span class="blank">Western Ghats & Sri Lanka</span>.</li>
+  <li class="fb-item">These hotspots cover less than <span class="blank">2%</span> of the world's land area but have about <span class="blank">50%</span> of terrestrial biodiversity.</li>
+  <li class="fb-item">The Western Ghats & Sri Lanka hotspot is also known as the <span class="blank">"Sahyadri Hills"</span>.</li>
+  <li class="fb-item">The original extent of the Western Ghats hotspot was about <span class="blank">1,82,500 sq km</span>, but only <span class="blank">12,445 sq km (6.8%)</span> is now in pristine condition.</li>
+  <li class="fb-item">Indo-Burma hotspot includes all of <span class="blank">Cambodia, Vietnam, and Laos</span>, and nearly entire areas of Thailand, Myanmar, and Bhutan.</li>
+  <li class="fb-item">Criteria for hotspot: No. of <span class="blank">Endemic Species</span> and Degree of threat measured in terms of <span class="blank">Habitat Loss</span>.</li>
+  <li class="fb-item">Habitat loss and degradation affect <span class="blank">89%</span> of all threatened birds, <span class="blank">83%</span> of mammals, and <span class="blank">91%</span> of all threatened plants (IUCN, 2000).</li>
+  <li class="fb-item">The Convention on Biological Diversity was held in <span class="blank">Rio de Janeiro</span> in <span class="blank">June, 1992</span>.</li>
+  <li class="fb-item">India has <span class="blank">11</span> major biosphere reserves, <span class="blank">80</span> National parks, and <span class="blank">420</span> wildlife sanctuaries, covering <span class="blank">4%</span> of geographic area.</li>
+  <li class="fb-item">The <span class="blank">Jim Corbett</span> National Park was the 1st national park established in India.</li>
+  <li class="fb-item">Out of about <span class="blank">47,000</span> species of plants in India, <span class="blank">7,000</span> are endemic.</li>
+  <li class="fb-item">India contains <span class="blank">172</span> species of animals considered globally threatened by IUCN, which is <span class="blank">2.9%</span> of the world's total threatened species.</li>
+  <li class="fb-item">These 172 threatened species include <span class="blank">53</span> mammals, <span class="blank">69</span> birds, <span class="blank">23</span> reptiles, and <span class="blank">3</span> amphibians.</li>
+  <li class="fb-item">About <span class="blank">3,000–4,000</span> higher plants may be under high degree of threat in India.</li>
+  <li class="fb-item">Indian subcontinent has about <span class="blank">62%</span> endemic flora, restricted mainly to Himalayas, Khasi Hills, and Western Ghats.</li>
+  <li class="fb-item">About <span class="blank">62%</span> amphibians and <span class="blank">50%</span> lizards are endemic to Western Ghats.</li>
+  <li class="fb-item">About <span class="blank">81,000</span> species of animals are found in India.</li>
+  <li class="fb-item">There are more than <span class="blank">1,500</span> Botanical Gardens in the world containing more than <span class="blank">80,000</span> species.</li>
+  <li class="fb-item">There are more than <span class="blank">800</span> zoos around the world with about <span class="blank">3,000</span> species of mammals, birds, reptiles, and amphibians.</li>
+  <li class="fb-item">NBPGR stands for <span class="blank">National Bureau of Plant Genetic Resources</span>, located in New Delhi.</li>
+  <li class="fb-item">In NBPGR, seeds are preserved by cryo-preservation at <span class="blank">-196°C in Liquid Nitrogen</span>.</li>
+  <li class="fb-item">The <span class="blank">Wild Life (Protection) Act, 1972</span> provides a comprehensive legal framework for protection of wild animals, birds, and plants, covering the entire country.</li>
+  <li class="fb-item">The Wildlife (Protection) Amendment Act, 2022 streamlined the original <span class="blank">six</span> schedules into <span class="blank">four</span> distinct categories.</li>
+  <li class="fb-item">In the Wildlife schedules, Schedule <span class="blank">I</span> offers highest protection/endangered species, Schedule <span class="blank">II</span> offers lesser protection/general, Schedule <span class="blank">III</span> is for protected plants, and Schedule <span class="blank">IV</span> is for CITES-listed specimens.</li>
+  <li class="fb-item">The Biological Diversity Act was enacted in <span class="blank">2002</span> and notably updated in <span class="blank">2023</span>.</li>
+  <li class="fb-item">The NBA (National Biodiversity Authority) was established in <span class="blank">2003</span> and is headquartered in <span class="blank">Chennai</span>.</li>
+  <li class="fb-item">The National Medicinal Plants Board (NMPB) was established in <span class="blank">November 2000</span> under the Ministry of <span class="blank">AYUSH</span>.</li>
+  <li class="fb-item">De-extinction: revival of species from <span class="blank">12,000 years ago</span> through genetic engineering.</li>
+  <li class="fb-item">Of 80,000 known edible plants, we depend on <span class="blank">20 species</span> to provide <span class="blank">90%</span> of global food supply; corn, rice, and wheat alone provide <span class="blank">50%</span>.</li>
+  <li class="fb-item"><span class="blank">40%</span> of modern medicines come from plants/animals/fungi, and <span class="blank">95%</span> of known plant species have never been tested for medicinal value.</li>
+  <li class="fb-item">Engineers Ireland declared a climate and biodiversity emergency in <span class="blank">March 2020</span>.</li>
+  <li class="fb-item">Engineers Ireland has <span class="blank">25,000</span> members.</li>
+  <li class="fb-item">Green engineering of USEPA is the design, commercialization, and use of processes and products that <span class="blank">minimize pollution, promote sustainability, and protect human health</span>.</li>
+</ul>
+
+<h3>🦋 Insects & Ecology</h3>
+<ul class="fb-list">
+  <li class="fb-item">Mosquito larvae consume <span class="blank">pollutants from water</span> and mosquitoes play a role in pollinating <span class="blank">certain plants</span>.</li>
+  <li class="fb-item">House flies are strongly suspected of transmitting at least <span class="blank">65 diseases</span> to humans.</li>
+  <li class="fb-item">The insect larvae that can consume plastics include <span class="blank">Tenebrio molitor</span> (yellow mealworm), <span class="blank">Zophobas atratus</span> (superworm), and <span class="blank">Galleria mellonella</span> (wax worm).</li>
+  <li class="fb-item">Key dung beetle types are <span class="blank">rollers, tunnelers, and dwellers</span>.</li>
+</ul>
+
+<h3>🌍 Environmental Challenges — Facts</h3>
+<ul class="fb-list">
+  <li class="fb-item">The UN has adopted international frameworks for three key issues encoded as the <span class="blank">"triple planetary crises"</span>.</li>
+  <li class="fb-item">The share of renewables in global electricity generation reached <span class="blank">34.3%</span> in 2026.</li>
+  <li class="fb-item">India is the world's <span class="blank">third-largest</span> renewable energy (RE) market.</li>
+  <li class="fb-item">India's installed renewable energy capacity reached <span class="blank">274.68 GW</span> by March 2026, a <span class="blank">3.59-fold</span> increase since 2014.</li>
+  <li class="fb-item">India's solar capacity is <span class="blank">150.26 GW</span> and wind capacity is <span class="blank">56.09 GW</span>.</li>
+  <li class="fb-item">India added a record <span class="blank">55.29 GW</span> of non-fossil capacity in FY 2025–26, aiming for <span class="blank">500 GW</span> by 2030.</li>
+  <li class="fb-item">More than <span class="blank">1 billion</span> people lack access to clean water.</li>
+  <li class="fb-item">Air pollution kills about <span class="blank">3 million</span> people a year.</li>
+  <li class="fb-item">About <span class="blank">half</span> of the US population lives in areas with unhealthy levels of air pollution.</li>
+  <li class="fb-item">Indoor smoke from cooking increases risk of pneumonia, chronic respiratory disease, asthma, cataract, tuberculosis, and lung cancer, responsible for up to <span class="blank">1.6 million</span> deaths a year (WHO 2010).</li>
+  <li class="fb-item">The ozone layer is located in the <span class="blank">stratosphere</span>, about <span class="blank">20–25 km</span> above the Earth.</li>
+  <li class="fb-item">The ozone layer has been weakened by <span class="blank">chlorofluorocarbons (CFCs)</span> and HCCs used in refrigerators, air conditioners, spray cans. The fourth generation of synthetic refrigerants are <span class="blank">HFOs (Hydrofluoroolefins)</span>.</li>
+  <li class="fb-item">Radioactive plutonium has a half-life of <span class="blank">24,000 years</span>.</li>
+  <li class="fb-item">In 1960, each U.S. citizen generated <span class="blank">2.7 pounds</span> of garbage per day; this rose to <span class="blank">3.7 pounds</span> in 1980, <span class="blank">4.3 pounds</span> in 2009, and about <span class="blank">5 pounds</span> in 2017.</li>
+  <li class="fb-item">MSW (Municipal Solid Waste) in India is <span class="blank">62 million tonnes (mT)</span> per annum.</li>
+  <li class="fb-item">In 2011, <span class="blank">1,287</span> hazardous waste sites (Superfund sites) were on the National Priority List in the US.</li>
+  <li class="fb-item">About <span class="blank">3 million tons</span> of toxic chemicals are released into the environment each year.</li>
+  <li class="fb-item">The 12th Report on Carcinogens lists <span class="blank">240</span> chemical substances as "known" or "reasonably anticipated" human carcinogens.</li>
+  <li class="fb-item">There are an estimated <span class="blank">8.7 million</span> species of life on earth; <span class="blank">1.3 million</span> have been named and catalogued.</li>
+  <li class="fb-item">About <span class="blank">30%</span> of the world's surface is land.</li>
+  <li class="fb-item">In 2009, oil and gas industries spent <span class="blank">$175 million</span> on lobbying—nearly <span class="blank">eight times</span> what pro-environmental groups spent.</li>
+  <li class="fb-item">The world's population reached the <span class="blank">8 billion</span> mark in <span class="blank">2022</span>.</li>
+  <li class="fb-item">Urbanisation in India is about <span class="blank">34%</span>, against <span class="blank">56%</span> world average.</li>
+  <li class="fb-item">The CO₂ level in the atmosphere in 2026 is approximately <span class="blank">430 ppm</span>.</li>
+  <li class="fb-item">Rise of Earth's surface temperature by <span class="blank">1.5°C</span> over the 1800s baseline.</li>
+  <li class="fb-item">Climate change kills an estimated <span class="blank">30,000</span> people per year, mostly in the developing world.</li>
+  <li class="fb-item">Ecosystem services have an estimated global value exceeding <span class="blank">$125 trillion</span> per year.</li>
+  <li class="fb-item">PCBs (polychlorinated biphenyls), i.e., <span class="blank">dioxins</span>, from the Southern Hemisphere have been found in the <span class="blank">Arctic</span>.</li>
+  <li class="fb-item">Red fire ants came from <span class="blank">Paraguay and Brazil</span> on shiploads of lumber to <span class="blank">Mobile, Alabama</span> in <span class="blank">1957</span>.</li>
+  <li class="fb-item">India is the world's <span class="blank">6th largest</span> producer of chemicals; China, the United States, and Germany take the lead.</li>
+  <li class="fb-item">There are more than <span class="blank">840,000</span> dams worldwide that provide water and electricity.</li>
+  <li class="fb-item">Approximately <span class="blank">29.3–30%</span> of India's total geographical area is undergoing land degradation, highest in <span class="blank">Rajasthan, Maharashtra, Gujarat, Karnataka, and Jammu & Kashmir</span>. Water erosion is primary driver (<span class="blank">80%</span>).</div>
+  <li class="fb-item">EIA has been made mandatory for <span class="blank">29 categories</span> of developmental activities involving investments of Rs. <span class="blank">50 crores</span> and above.</li>
+  <li class="fb-item">The governing instrument for EIA in India is the <span class="blank">EIA Notification, 2006</span>.</li>
+  <li class="fb-item">Pinkwashing uses the color <span class="blank">pink and pink ribbons</span> to market companies as helping fight <span class="blank">breast cancer</span>.</li>
+</ul>
+
+<h3>🌡️ Carbon & Energy</h3>
+<ul class="fb-list">
+  <li class="fb-item">Replacing <span class="blank">coal</span> with gas or oil would reduce the carbon dioxide emission (carbon footprints).</li>
+  <li class="fb-item">Solar energy and wind energy have almost <span class="blank">zero</span> carbon dioxide emissions.</li>
+  <li class="fb-item">A quad = 10<span class="blank">¹⁵</span> BTU = <span class="blank">1.055×10¹⁸</span> joules = <span class="blank">1.055 exajoules (EJ)</span>.</li>
+  <li class="fb-item">Hydroelectric power accounts for <span class="blank">6.2%</span> of global energy; considered clean and renewable but criticized for <span class="blank">affecting natural habitats</span>.</li>
+  <li class="fb-item">The most common source of global energy is <span class="blank">fossil fuels</span> (petroleum, coal, natural gas).</li>
+  <li class="fb-item">Reference book for carbon numericals: <span class="blank">Introduction to Environmental Engineering and Science</span> by <span class="blank">Gilbert M. Masters</span>, Prentice Hall of India, 1991.</li>
+</ul>
+
+<h3>⚖️ Laws, Conventions & Bodies</h3>
+<ul class="fb-list">
+  <li class="fb-item">The Convention on Biological Diversity (CBD) was established in <span class="blank">1992</span> to promote conservation, sustainable use, and equitable sharing of genetic resources.</li>
+  <li class="fb-item">The Aichi Targets (2011–2020) had <span class="blank">20</span> goals to curb biodiversity loss.</li>
+  <li class="fb-item">The Kunming-Montreal Global Biodiversity Framework (KMGBF) was adopted at <span class="blank">COP 15</span> in <span class="blank">2022</span>, comprising <span class="blank">4</span> major goals and <span class="blank">23</span> urgent targets for 2030.</li>
+  <li class="fb-item">KMGBF sets a global mission to halt and reverse biodiversity loss by <span class="blank">2030</span>, with ultimate vision of humans living in harmony with nature by <span class="blank">2050</span>.</li>
+  <li class="fb-item">India has ratified the CBD and is one of <span class="blank">196</span> nations to have done so.</li>
+  <li class="fb-item">India formulated the National Biodiversity Strategy and Action Plan (NBSAP) <span class="blank">2024–2030</span> aligning with KMGBF, setting <span class="blank">23</span> national biodiversity targets.</li>
+  <li class="fb-item">India's Biological Diversity Act was enacted in <span class="blank">2002</span> (amended in <span class="blank">2023</span>).</li>
+  <li class="fb-item">PSUs in India contribute about <span class="blank">14%</span> to India's GDP.</li>
+  <li class="fb-item">NPC (National Productivity Council) was established in <span class="blank">1958</span>.</li>
+  <li class="fb-item">NPC has been entrusted as an EADA (Environment Audit Designated Agency) since <span class="blank">18th March 2026</span>.</li>
+  <li class="fb-item">Basel Convention deals with <span class="blank">transboundary movements of hazardous wastes and their disposal</span>.</li>
+  <li class="fb-item">Rotterdam Convention deals with <span class="blank">Prior Informed Consent procedure for hazardous chemicals and pesticides in international trade</span>.</li>
+  <li class="fb-item">Stockholm Convention deals with <span class="blank">Persistent Organic Pollutants (POPs)</span>.</li>
+  <li class="fb-item">POPs include organochlorine pesticides such as <span class="blank">DDT</span>, industrial chemicals <span class="blank">PCBs</span>, and unintentional byproducts <span class="blank">dioxins (PCDD)</span> and <span class="blank">furans (PCDF)</span>.</li>
+  <li class="fb-item">NTPC (National Thermal Power Corporation) released a biodiversity conservation policy in <span class="blank">2022</span> to achieve <span class="blank">No Net Loss of Biodiversity</span>.</div>
+</ul>
+
+<h3>🐆 Species & Conservation Examples</h3>
+<ul class="fb-list">
+  <li class="fb-item">ONGC played a prominent role in translocating eastern swamp deer from <span class="blank">Kaziranga National Park</span> to <span class="blank">Manas National Park</span> in Assam.</li>
+  <li class="fb-item">Important animal populations in Western Ghats include <span class="blank">Asian elephant, Indian tigers, and the endangered lion-tailed macaque</span>.</li>
+  <li class="fb-item">Great Indian Bustard is becoming extinct in <span class="blank">Rajasthan</span> — being saved through <span class="blank">Artificial Hatching</span>.</li>
+  <li class="fb-item">The first drug based on snake venom approved by the US FDA in <span class="blank">1981</span> was <span class="blank">Captopril</span> (an antihypertensive).</li>
+  <li class="fb-item">Apple cultivars in North America reduced from <span class="blank">14,000</span> to <span class="blank">11</span>, which supply 90% of apple supply.</li>
+  <li class="fb-item">Coffee: <span class="blank">28%</span> decline in Latin American production due to climate change bringing new rainfall and pest patterns.</li>
+  <li class="fb-item">Kuno National Park is associated with the return of <span class="blank">Cheetahs</span> to India.</li>
+</ul>
+
+<h3>🏭 EHSS Conference Details</h3>
+<ul class="fb-list">
+  <li class="fb-item">The 3rd Edition EHSS India Congress was held on <span class="blank">17 April 2026</span> at <span class="blank">Le Méridien, New Delhi</span>.</li>
+  <li class="fb-item">Conference theme: <span class="blank">Landscape of EHS&S in Indian Industry</span>.</li>
+  <li class="fb-item">The Welcome Address was given by <span class="blank">Anurag Sharma</span>, Convenor, Technical Organising Committee.</li>
+  <li class="fb-item">Technical Session I was chaired by <span class="blank">Pankaj Kumar Goswami</span>, Former Director (Operations), Oil India Limited.</li>
+  <li class="fb-item">Panel Discussion I moderator: <span class="blank">Debobroto Banerjee</span>, CEO, EWAC Alloys Limited.</li>
+  <li class="fb-item">Keynote Address at EHSS was by <span class="blank">Dr. Arup Kumar Misra</span>, Chairman, Assam Pollution Control Board.</li>
+  <li class="fb-item">NPC Workshop on Biodiversity was on <span class="blank">10th April 2026</span> at <span class="blank">Hotel Le Meridien, Windsor Place, New Delhi</span>.</li>
+  <li class="fb-item">NPC Biodiversity Workshop was organised by <span class="blank">National Productivity Council (NPC)</span> and <span class="blank">Department of Public Enterprises (DPE)</span>.</li>
+</ul>
+</section>
+
+<!-- ============ TRUE/FALSE ============ -->
+<section id="tf">
+<h2>✅ True/False Practice Bank</h2>
+<div class="tip-box"><strong>Strategy:</strong> For T/F, the professor often tweaks a number or keyword to make it false. Pay attention to the <em>exact figures</em>.</div>
+
+<div class="tf-list">
+
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>Biodiversity found on Earth is the product of nearly 3.5 billion years of evolution.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>Alpha diversity refers to within-community diversity (organisms sharing the same habitat).</div>
+  <div class="tf-item"><span class="tf-badge F">FALSE</span>Beta diversity refers to organisms sharing the same habitat. <em>(Correct: Beta = between two habitats; within-community = Alpha)</em></div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>Species diversity is more useful than species richness as a measure of biodiversity.</div>
+  <div class="tf-item"><span class="tf-badge F">FALSE</span>There are 30 biodiversity hotspots globally, of which 3 are in India. <em>(Correct: 25 hotspots globally, 2 in India)</em></div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>The two biodiversity hotspots in India are Indo-Burma (Eastern Himalayas) and Western Ghats & Sri Lanka.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>These hotspots cover less than 2% of the world's land area but contain about 50% of terrestrial biodiversity.</div>
+  <div class="tf-item"><span class="tf-badge F">FALSE</span>A biodiversity hotspot must have lost at least 50% of its original native vegetation. <em>(Correct: at least 70%)</em></div>
+  <div class="tf-item"><span class="tf-badge F">FALSE</span>An area is designated a hotspot if it contains at least 500 endemic vascular plant species. <em>(Correct: at least 1,500 species)</em></div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>The Jim Corbett National Park was the first national park established in India.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>India has 11 major biosphere reserves, 80 National Parks, and 420 wildlife sanctuaries, covering 4% of geographic area.</div>
+  <div class="tf-item"><span class="tf-badge F">FALSE</span>India has 90 National Parks and 11 biosphere reserves. <em>(Correct: 80 National Parks and 11 biosphere reserves)</em></div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>Out of about 47,000 species of plants in India, 7,000 are endemic.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>India contains 172 species of animals considered globally threatened by IUCN (2.9% of the world's total).</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>Seeds at NBPGR are preserved by cryo-preservation at -196°C in Liquid Nitrogen.</div>
+  <div class="tf-item"><span class="tf-badge F">FALSE</span>There are more than 1,000 zoos worldwide with about 5,000 species. <em>(Correct: more than 800 zoos, about 3,000 species)</em></div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>There are more than 1,500 Botanical Gardens in the world containing more than 80,000 species.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>The Wildlife (Protection) Amendment Act, 2022 streamlined original six schedules into four distinct categories.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>The NBA (National Biodiversity Authority) is headquartered in Chennai.</div>
+  <div class="tf-item"><span class="tf-badge F">FALSE</span>The NBA was established in 2002. <em>(Correct: established in 2003 under the Biological Diversity Act, 2002)</em></div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>The National Medicinal Plants Board was established in November 2000 under the Ministry of AYUSH.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>40% of modern medicines come from plants, animals, or fungi.</div>
+  <div class="tf-item"><span class="tf-badge F">FALSE</span>75% of known plant species have never been tested for medicinal value. <em>(Correct: 95%)</em></div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>Of 80,000 known edible plants, we depend on 20 species to provide 90% of global food supply.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>Corn, rice, and wheat alone provide 50% of the global food supply.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>Apple cultivars in North America have been reduced from 14,000 to 11, which supply 90% of the supply.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>Engineers Ireland declared a climate and biodiversity emergency in March 2020.</div>
+  <div class="tf-item"><span class="tf-badge F">FALSE</span>Engineers Ireland has 15,000 members. <em>(Correct: 25,000 members)</em></div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>House flies are strongly suspected of transmitting at least 65 diseases to humans.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>Galleria mellonella (wax worm) can consume and biodegrade plastics like polystyrene and polyethylene.</div>
+  <div class="tf-item"><span class="tf-badge F">FALSE</span>Solar energy and wind energy have significant carbon dioxide emissions. <em>(Correct: almost zero carbon dioxide emissions)</em></div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>A quad is a unit of energy equal to 10¹⁵ BTU or 1.055×10¹⁸ joules (1.055 exajoules).</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>Replacing coal with gas or oil would reduce carbon footprints.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>The share of renewables in global electricity reached 34.3% in 2026.</div>
+  <div class="tf-item"><span class="tf-badge F">FALSE</span>India is the world's second-largest renewable energy market. <em>(Correct: third-largest)</em></div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>India's renewable energy target is 500 GW by 2030.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>The ozone layer is in the stratosphere, about 20–25 km above Earth.</div>
+  <div class="tf-item"><span class="tf-badge F">FALSE</span>Plutonium has a half-life of 12,000 years. <em>(Correct: 24,000 years)</em></div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>In 2009, oil and gas industries spent $175 million on lobbying—nearly eight times what pro-environmental groups spent.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>There are an estimated 8.7 million species of life on earth; 1.3 million have been named.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>Ecosystem services have an estimated global value exceeding $125 trillion per year.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>MSW in India is 62 million tonnes per annum.</div>
+  <div class="tf-item"><span class="tf-badge F">FALSE</span>CO₂ level in the atmosphere in 2026 is approximately 350 ppm. <em>(Correct: approximately 430 ppm)</em></div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>Climate change kills an estimated 30,000 people per year, mostly in the developing world.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>The Convention on Biological Diversity (CBD) was established in 1992.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>KMGBF was adopted at COP 15 in 2022 with 4 major goals and 23 urgent targets for 2030.</div>
+  <div class="tf-item"><span class="tf-badge F">FALSE</span>India is one of 150 nations that have ratified the CBD. <em>(Correct: 196 nations)</em></div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>EIA is mandatory for 29 categories of developmental activities involving investments of Rs. 50 crores and above.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>PSUs contribute about 14% to India's GDP.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>NPC was established in 1958 and has been made an EADA (Environment Audit Designated Agency) since 18th March 2026.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>Red fire ants came from Paraguay and Brazil to Mobile, Alabama in 1957 via lumber shipments.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>Hydroelectric power accounts for 6.2% of global energy sources.</div>
+  <div class="tf-item"><span class="tf-badge F">FALSE</span>The EIA Notification in India was issued in 2000. <em>(Correct: 2006)</em></div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>The Captopril (antihypertensive drug) was approved by the US FDA in 1981 and is based on snake venom.</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>Approximately 29.3–30% of India's total geographical area is undergoing land degradation, with water erosion being the primary driver (80%).</div>
+  <div class="tf-item"><span class="tf-badge F">FALSE</span>Greenwashing is a transparent and honest environmental marketing practice. <em>(Correct: it is a deceptive marketing tactic)</em></div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>In-situ conservation emphasizes protection of total ecosystems through a network of protected areas.</div>
+  <div class="tf-item"><span class="tf-badge F">FALSE</span>Ex-situ conservation means conservation in the species' natural habitat. <em>(Correct: ex-situ = outside natural habitats)</em></div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>Indoor air pollution is responsible for up to 1.6 million deaths per year (WHO 2010).</div>
+  <div class="tf-item"><span class="tf-badge T">TRUE</span>The 12th Report on Carcinogens lists 240 chemical substances as known or anticipated human carcinogens.</div>
+
+</div>
+</section>
+
+<!-- ============ KEY NUMBERS ============ -->
+<section id="numbers">
+<h2>🔢 All Key Numbers — Quick Reference</h2>
+
+<table class="num-table">
+  <tr><th>Number</th><th>What it refers to</th><th>Source</th></tr>
+  <tr><td class="num">3.5 billion years</td><td>Evolution of Earth's biodiversity</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">80,000</td><td>Edible plant species known; also species in botanical gardens</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">90%</td><td>Food crops domesticated from wild; also % food from 20 species</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">75%</td><td>World's population depending on plants for medicine</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">2.1 million</td><td>Species identified till date</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">10th / 4th</td><td>India's global/Asian rank in plant diversity</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">1,500</td><td>Endemic vascular plant species needed for hotspot; also botanical gardens worldwide</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">70%</td><td>Original vegetation lost for hotspot designation</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">0.5%</td><td>Alternate hotspot criterion: % of plant species as endemic</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">25</td><td>Total global biodiversity hotspots</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">2</td><td>Hotspots in India</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">2% / 50%</td><td>Hotspots' land area / terrestrial biodiversity they contain</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">1,82,500 sq km</td><td>Original extent of Western Ghats hotspot</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">12,445 sq km (6.8%)</td><td>Pristine condition remaining in Western Ghats hotspot</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">89% / 83% / 91%</td><td>Threatened birds/mammals/plants affected by habitat loss (IUCN 2000)</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">11 / 80 / 420</td><td>India's biosphere reserves / national parks / wildlife sanctuaries</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">4%</td><td>Geographic area covered by India's protected areas; also India's GDP share by PSUs is 14%</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">47,000 / 7,000</td><td>Plant species in India / endemic among them</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">172 / 2.9%</td><td>IUCN-threatened animals in India / % of world total</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">53/69/23/3</td><td>Mammals/birds/reptiles/amphibians among 172 threatened species</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">3,000–4,000</td><td>Higher plants under high degree of threat in India</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">62% / 50%</td><td>Endemic amphibians / lizards in Western Ghats</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">81,000</td><td>Animal species in India</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">800 / 3,000</td><td>Zoos worldwide / species in them</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">-196°C</td><td>Cryo-preservation temperature at NBPGR</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">2003 / Chennai</td><td>Year NBA established / location of headquarters</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">25,000</td><td>Engineers Ireland members</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">65</td><td>Diseases transmitted by house flies</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">14,000 → 11</td><td>Apple cultivar reduction in North America</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">20 species</td><td>Species providing 90% of global food</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">40% / 95%</td><td>Medicines from nature / untested plant species</td><td>Biodiversity PPT</td></tr>
+  <tr><td class="num">196</td><td>Nations that ratified CBD</td><td>SKM PDF</td></tr>
+  <tr><td class="num">COP 15 / 2022</td><td>KMGBF adoption event and year</td><td>SKM PDF</td></tr>
+  <tr><td class="num">4 goals / 23 targets</td><td>KMGBF structure for 2030</td><td>SKM PDF</td></tr>
+  <tr><td class="num">14%</td><td>PSU contribution to India's GDP</td><td>SKM PDF</td></tr>
+  <tr><td class="num">1958</td><td>NPC established</td><td>SKM PDF</td></tr>
+  <tr><td class="num">10,000+</td><td>Organizations supported by NPC</td><td>SKM PDF</td></tr>
+  <tr><td class="num">10¹⁵ BTU</td><td>One Quad (unit of energy)</td><td>Carbon PPT</td></tr>
+  <tr><td class="num">34.3%</td><td>Global renewables share in electricity (2026)</td><td>Env. PPT</td></tr>
+  <tr><td class="num">274.68 GW</td><td>India's RE installed capacity by March 2026</td><td>Env. PPT</td></tr>
+  <tr><td class="num">3.59-fold</td><td>India's RE capacity increase since 2014</td><td>Env. PPT</td></tr>
+  <tr><td class="num">150.26 / 56.09 GW</td><td>India's solar / wind energy capacity</td><td>Env. PPT</td></tr>
+  <tr><td class="num">500 GW</td><td>India's renewable energy target by 2030</td><td>Env. PPT</td></tr>
+  <tr><td class="num">1 billion+</td><td>People lacking clean water access</td><td>Env. PPT</td></tr>
+  <tr><td class="num">3 million</td><td>Air pollution deaths per year</td><td>Env. PPT</td></tr>
+  <tr><td class="num">1.6 million</td><td>Indoor air pollution deaths per year (WHO 2010)</td><td>Env. PPT</td></tr>
+  <tr><td class="num">20–25 km</td><td>Stratosphere / ozone layer altitude</td><td>Env. PPT</td></tr>
+  <tr><td class="num">24,000 years</td><td>Half-life of radioactive plutonium</td><td>Env. PPT</td></tr>
+  <tr><td class="num">2.7 → 4.3 → ~5 lbs</td><td>US per-capita garbage: 1960 → 2009 → 2017</td><td>Env. PPT</td></tr>
+  <tr><td class="num">62 mT</td><td>Municipal solid waste in India per year</td><td>Env. PPT</td></tr>
+  <tr><td class="num">8.7 million</td><td>Estimated species on Earth</td><td>Env. PPT</td></tr>
+  <tr><td class="num">$125 trillion</td><td>Global value of ecosystem services per year</td><td>Env. PPT</td></tr>
+  <tr><td class="num">430 ppm</td><td>Atmospheric CO₂ level in 2026</td><td>Env. PPT</td></tr>
+  <tr><td class="num">1.5°C</td><td>Rise in Earth's surface temperature over 1800s baseline</td><td>Env. PPT</td></tr>
+  <tr><td class="num">30,000</td><td>Deaths per year from climate change</td><td>Env. PPT</td></tr>
+  <tr><td class="num">$175 million</td><td>Oil/gas lobbying spend in 2009 (8× pro-environment groups)</td><td>Env. PPT</td></tr>
+  <tr><td class="num">3 million tons</td><td>Toxic chemicals released per year</td><td>Env. PPT</td></tr>
+  <tr><td class="num">240</td><td>Chemical substances listed as carcinogens (12th Report)</td><td>Env. PPT</td></tr>
+  <tr><td class="num">8 billion / 2022</td><td>World population milestone</td><td>Env. PPT</td></tr>
+  <tr><td class="num">29 categories / Rs. 50 Cr</td><td>EIA mandatory thresholds</td><td>Env. PPT</td></tr>
+  <tr><td class="num">6th largest</td><td>India's rank in global chemical production</td><td>Env. PPT</td></tr>
+  <tr><td class="num">840,000</td><td>Dams worldwide</td><td>Env. PPT</td></tr>
+  <tr><td class="num">6.2%</td><td>Hydroelectric power's share of global energy</td><td>Env. PPT</td></tr>
+</table>
+</section>
+
+<!-- ============ LAWS & ACTS ============ -->
+<section id="laws">
+<h2>⚖️ Laws, Acts & International Conventions</h2>
+
+<div class="def-grid">
+  <div class="def-card">
+    <div class="tag">India</div>
+    <div class="term">Wild Life (Protection) Act, 1972</div>
+    <div class="meaning">Indian parliamentary act providing comprehensive legal framework for protection of wild animals, birds, and plants covering the entire country. Restricts hunting, regulates wildlife product trade, establishes national parks and sanctuaries.</div>
+  </div>
+  <div class="def-card">
+    <div class="tag">India — Amendment</div>
+    <div class="term">Wildlife (Protection) Amendment Act, 2022</div>
+    <div class="meaning">Streamlined original 6 schedules into 4 categories: Schedule I (highest/endangered), II (general protection), III (protected plants), IV (CITES-listed). Implemented to align with CITES.</div>
+  </div>
+  <div class="def-card">
+    <div class="tag">India</div>
+    <div class="term">Biological Diversity Act, 2002 (amended 2023)</div>
+    <div class="meaning">Aims to conserve biological resources, promote sustainable use, ensure fair benefit-sharing. Enacted for UN CBD obligations. Mandates NBA (2003, Chennai), SBBs, and BMCs.</div>
+  </div>
+  <div class="def-card">
+    <div class="tag">India</div>
+    <div class="term">Environmental Protection Act, 1986</div>
+    <div class="meaning">Makes EIA mandatory for 29 categories of developmental activities with investments ≥ Rs. 50 crores. The governing instrument is EIA Notification, 2006.</div>
+  </div>
+  <div class="def-card">
+    <div class="tag">International</div>
+    <div class="term">Convention on Biological Diversity (CBD), 1992</div>
+    <div class="meaning">Established in 1992 to promote conservation, sustainable use, and equitable sharing of genetic resources. 196 nations ratified. Aichi Targets (2011–2020): 20 goals; KMGBF adopted at COP 15 in 2022.</div>
+  </div>
+  <div class="def-card">
+    <div class="tag">International</div>
+    <div class="term">Basel Convention</div>
+    <div class="meaning">International action on control of transboundary movements of hazardous wastes and their disposal.</div>
+  </div>
+  <div class="def-card">
+    <div class="tag">International</div>
+    <div class="term">Rotterdam Convention</div>
+    <div class="meaning">Prior Informed Consent (PIC) procedure for certain hazardous chemicals and pesticides in international trade.</div>
+  </div>
+  <div class="def-card">
+    <div class="tag">International</div>
+    <div class="term">Stockholm Convention</div>
+    <div class="meaning">Deals with Persistent Organic Pollutants (POPs) including DDT, PCBs, dioxins (PCDD), and furans (PCDF).</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ SPECIES & HOTSPOTS ============ -->
+<section id="species">
+<h2>🦁 Species, Hotspots & Biosphere Reserves</h2>
+
+<h3>Biosphere Reserves of India</h3>
+<table class="num-table">
+  <tr><th>Reserve</th><th>Area</th></tr>
+  <tr><td>Nilgiri</td><td class="num">5,520 sq km</td></tr>
+  <tr><td>Nanda Devi</td><td class="num">5,860.69 sq km</td></tr>
+  <tr><td>Manas</td><td class="num">2,837 sq km</td></tr>
+  <tr><td>Gulf of Mannar</td><td class="num">10,500 sq km</td></tr>
+  <tr><td>Great Nicobar</td><td class="num">885 sq km</td></tr>
+  <tr><td>Panchmarhi</td><td class="num">4,926.28 sq km</td></tr>
+</table>
+
+<h3>National Parks & Sanctuaries (Examples)</h3>
+<ul class="fb-list">
+  <li class="fb-item">National Parks: <span class="blank">Kaziranga (Assam), Gir National Park (Gujarat), Periyar (Kerala), Sariska (Rajasthan)</span></li>
+  <li class="fb-item">Wildlife Sanctuaries: <span class="blank">Ghana Bird, Hazaribagh, Abohar, Jaldapara, Mudumalai</span></li>
+</ul>
+
+<h3>Endemic Animals of India</h3>
+<ul class="fb-list">
+  <li class="fb-item">Golden monkey, Nilgiri Langur, Indian Wolf, Red Fox, Himalayan Brown Bear, <span class="blank">Great Indian One-Horned Rhinoceros</span>, White-Winged Wood Duck, Black Necked Crane, Indian Pea Fowl, Gharial, Indian Egg-eating Snake, Indian Salamander.</li>
+</ul>
+
+<h3>Species Classification Examples (Exam Traps)</h3>
+<table class="num-table">
+  <tr><th>Category</th><th>Example given in PPT</th></tr>
+  <tr><td>Threatened</td><td>Bengal tigers</td></tr>
+  <tr><td>Extinct</td><td>Quagga, Dodo</td></tr>
+  <tr><td>Endemic</td><td>Asiatic lion</td></tr>
+  <tr><td>Endangered</td><td>Indian gharial</td></tr>
+</table>
+</section>
+
+<!-- ============ CARBON ============ -->
+<section id="carbon">
+<h2>🌡️ Carbon & Climate — Key Statements</h2>
+<ul class="fb-list">
+  <li class="fb-item">Replacing coal with <span class="blank">gas or oil</span> would reduce the carbon dioxide emission (carbon footprints).</li>
+  <li class="fb-item">Solar energy and wind energy have almost <span class="blank">zero</span> carbon dioxide emissions.</li>
+  <li class="fb-item">Using <span class="blank">hydrogen energy, fuel cells, and cleaner electric energy</span> would also reduce the carbon footprints.</li>
+  <li class="fb-item">A quad = 10<span class="blank">¹⁵</span> BTU = <span class="blank">1.055 × 10¹⁸</span> joules = <span class="blank">1.055 exajoules (EJ)</span>.</li>
+  <li class="fb-item">Reference book: <span class="blank">Introduction to Environmental Engineering and Science</span> by <span class="blank">Gilbert M. Masters</span>, Prentice Hall of India, <span class="blank">1991</span>.</li>
+  <li class="fb-item">Forests, wetlands, mangroves, and grasslands act as <span class="blank">carbon sinks</span>, reducing greenhouse gas concentrations.</li>
+  <li class="fb-item">Greenhouse gases primarily include <span class="blank">carbon dioxide (CO₂), methane, and nitrous oxide</span>.</li>
+  <li class="fb-item">CO₂ level in atmosphere in 2026: approximately <span class="blank">430 ppm</span>.</li>
+  <li class="fb-item">Earth's surface temperature has risen by <span class="blank">1.5°C</span> over 1800s baseline.</li>
+  <li class="fb-item">2025 was among the top <span class="blank">three</span> warmest years on record.</li>
+</ul>
+</section>
+
+<!-- ============ ENVIRONMENTAL PROBLEMS ============ -->
+<section id="env">
+<h2>🌍 Environmental Problems — Key Facts</h2>
+
+<h3>Sociological Perspectives</h3>
+<ul class="fb-list">
+  <li class="fb-item">Structural-Functionalist perspective raises awareness of <span class="blank">latent dysfunctions</span> — negative consequences of social actions that are unintended and not widely recognized.</li>
+  <li class="fb-item">Conflict perspective focuses on how <span class="blank">wealth, power, and the pursuit of profit</span> underlie environmental problems.</li>
+  <li class="fb-item">Symbolic Interactionist perspective is linked to <span class="blank">Greenwashing</span> and <span class="blank">Pinkwashing</span>.</li>
+  <li class="fb-item">Pinkwashing uses <span class="blank">pink ribbons</span> to suggest a company is helping fight <span class="blank">breast cancer</span>.</li>
+  <li class="fb-item">The relationship between economic development and environmental pollution is the <span class="blank">Environmental Kuznets Curve (EKC)</span> — an <span class="blank">inverted U-shape</span>.</li>
+</ul>
+
+<h3>Hazardous Wastes & Chemicals</h3>
+<ul class="fb-list">
+  <li class="fb-item">POPs = <span class="blank">Persistent Organic Pollutants</span>, including DDT, PCBs, dioxins (PCDD), furans (PCDF).</li>
+  <li class="fb-item">Multiple Chemical Sensitivity (MCS) is also known as <span class="blank">environmental illness</span>.</li>
+  <li class="fb-item">PFAS = <span class="blank">Per- and polyfluoroalkyl substances</span>, known as <span class="blank">"forever chemicals"</span>.</li>
+  <li class="fb-item">PTFE = <span class="blank">Polytetrafluoroethylene</span> (also known as TEFLON).</li>
+  <li class="fb-item">WTO, NAFTA, and FTAA are free trade agreements that weaken governments' ability to <span class="blank">protect natural resources and implement environmental legislation</span>.</li>
+</ul>
+
+<h3>Air & Water Pollution</h3>
+<ul class="fb-list">
+  <li class="fb-item">Air pollutants include: <span class="blank">carbon monoxide, sulfur dioxide, arsenic, nitrogen dioxide, mercury, dioxins, and lead</span>.</li>
+  <li class="fb-item">Acid rain is caused when <span class="blank">sulfur dioxide and nitrogen oxide</span> mix with precipitation.</li>
+  <li class="fb-item">Dead zones in Gulf of Mexico, Chesapeake Bay, and Lake Erie have oxygen levels so low they cannot support life due to <span class="blank">fertilizer pollution runoff</span>.</li>
+  <li class="fb-item">Fracking = <span class="blank">hydraulic fracturing</span>, used in natural gas production by injecting water, sand, and chemicals into underground wells to break shale rock.</li>
+  <li class="fb-item">BS VI Norms relate to <span class="blank">transportation vehicle emission standards</span>.</li>
+  <li class="fb-item">Hydrofluoroolefins (HFOs) are the <span class="blank">fourth generation</span> of synthetic refrigerants, replacing CFCs.</li>
+</ul>
+
+<h3>Green Energy</h3>
+<ul class="fb-list">
+  <li class="fb-item">Green energy / clean energy sources include <span class="blank">solar, wind, biofuel, and hydrogen</span>.</li>
+  <li class="fb-item">Biofuels are derived from <span class="blank">agricultural crops</span>. Two types: <span class="blank">ethanol</span> and <span class="blank">biodiesel</span>.</li>
+  <li class="fb-item">Maglev = <span class="blank">magnetic levitation</span>. Maximum speed: <span class="blank">603 km/h</span>. Used in <span class="blank">China, Japan, and Korea</span>.</li>
+  <li class="fb-item">The Adam Joseph Lewis Center for Environmental Studies at <span class="blank">Oberlin College, Ohio, USA</span> is one of the most environmentally friendly buildings. Vision of <span class="blank">David Orr</span>.</li>
+</ul>
+</section>
+
+</main>
+
+<script>
+// Quick search/highlight functionality
+document.addEventListener('keydown', function(e) {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+    // Let native browser find handle it
+  }
+});
+</script>
+
+</body>
+</html>
